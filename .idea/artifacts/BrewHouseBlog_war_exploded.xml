@@ -1,0 +1,17 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="BrewHouseBlog:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/BrewHouseBlog_war_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="BrewHouseBlog/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="BrewHouseBlog" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="javax.servlet:jstl:1.2" />
+          <element id="library" level="project" name="mysql:mysql-connector-java:8.0.17" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
