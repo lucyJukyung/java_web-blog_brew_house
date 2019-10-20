@@ -18,7 +18,7 @@
     <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
 </div>
 
-    <%--<img src="<%=request.getContextPath()%>/images/flower.png">--%>
+    <img src="<%=request.getContextPath()%>/images/flower.png">
     <%--<% String contextPath = request.getContextPath(); %>--%>
 </body>
 </html>
