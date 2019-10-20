@@ -1,30 +1,31 @@
 package blogpackage.model.bean;
 
 public class AboutUs {
+    protected int Did;
+    protected String Desc;
 
-    protected int aboutUsID;
-    protected String aboutUsContent;
+    public AboutUs(){}
 
-    // constructor
-    public AboutUs(int aboutUsID, String aboutUsContent) {
-        this.aboutUsID = aboutUsID;
-        this.aboutUsContent = aboutUsContent;
+    public AboutUs (String Desc){
+        this.Desc = Desc;
     }
 
-    // getters and setters
-    public int getAboutUsID() {
-        return aboutUsID;
+    public AboutUs(int Did, String Desc){
+        this.Did = Did;
+        this.Desc = Desc;
     }
 
-    public void setAboutUsID(int aboutUsID) {
-        this.aboutUsID = aboutUsID;
+    public int getDid(){
+        return Did;
+    }
+    public void setDid(int Did){
+        this.Did = Did;
     }
 
-    public String getAboutUsContent() {
-        return aboutUsContent;
+    public String getDesc(){
+        return Desc;
     }
-
-    public void setAboutUsContent(String aboutUsContent) {
-        this.aboutUsContent = aboutUsContent;
+    public void setDesc(String Desc){
+        this.Desc = Desc;
     }
 }
