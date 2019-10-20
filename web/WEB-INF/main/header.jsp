@@ -20,4 +20,4 @@
     <title>Brew House</title>
 
 </head>
-<body>
+<body style="background-color: #e1e1e1">
