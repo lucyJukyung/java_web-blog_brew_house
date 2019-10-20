@@ -1,7 +1,7 @@
 <%--
   This page will be used for:
   ADD CATEGORY
-  EDIT CATEGORY
+  EDIT About us
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
