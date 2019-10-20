@@ -31,4 +31,34 @@ public class AdminDAO {
 
         return connection;
     } // end getConnection
+
+
+    //method to close DB connection
+    private void finallySQLException(Connection c, PreparedStatement p, ResultSet r) {
+        System.out.println("DAO Admin - closing connections");
+        if (r != null) {
+            try {
+                r.close();
+            } catch (SQLException e) {
+                r = null;
+            }
+        } // end if resultset is not null
+
+        if (p != null) {
+            try {
+                p.close();
+            } catch (SQLException e) {
+                p = null;
+            }
+        } // end if prepared statement is not null
+
+        if (c != null) {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                c = null;
+            }
+        } // end if connection is not null
+
+    } // end finallySQLException
 }
