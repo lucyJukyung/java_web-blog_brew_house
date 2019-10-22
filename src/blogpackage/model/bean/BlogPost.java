@@ -17,15 +17,33 @@ public class BlogPost {
     }
 
     //constructor for selectAllPosts in PostDAO
-    public  BlogPost (int postId, String postTitle, String postDate, String postAuthor, String postContent, int categoryId, String categoryTitle){
-        this.postID = postId;
+
+    public BlogPost(int postID, String postTitle, String postDate, String postAuthor, String postContent, boolean isPostVisable, int categoryId, String categoryTitle) {
+        this.postID = postID;
         this.postTitle = postTitle;
         this.postDate = postDate;
         this.postAuthor = postAuthor;
         this.postContent = postContent;
+        this.isPostVisable = isPostVisable;
         this.categoryId = categoryId;
         this.categoryTitle = categoryTitle;
     }
+
+
+/*
+    int postID = rs.getInt("postId");
+    String postTitle = rs.getString("postTitle");
+    String postDate = rs.getString("postDate");
+    String postAuthor = rs.getString("postAuthor");
+    String postContent = rs.getString("postContent");
+    Boolean isPostVisible = rs.getBoolean("postVisible");
+    int categoryID = rs.getInt("categoryID");
+
+    // create an new object of type BlogPost and adds it to the list array <BlogPosts>
+                blogPosts.add(new BlogPost(postID, postTitle, postDate, postAuthor, postContent, isPostVisible, categoryID));*/
+
+
+
 
     public int getPostID() {
         return postID;

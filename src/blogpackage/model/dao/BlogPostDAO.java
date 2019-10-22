@@ -6,35 +6,27 @@ import java.util.List;
 
 import blogpackage.model.bean.BlogPost;
 
-<<<<<<< HEAD
+
     //defining instance variables
-=======
+
 public class BlogPostDAO {
     //Define instance variables
->>>>>>> origin/newLucy
+    //constructor
+    public BlogPostDAO() {}
+
+    //--------------------------
+    //      SQL QUERIES
+    //--------------------------
+    // retireve all posts from DB
     private String DBURL = "jdbc:mysql://localhost:3306/BlogDB?serverTimezone=Australia/Sydney";
     private String DBUsername = "root";
     private String DBPassword = "mysql123";
     private String SELECTALLPOSTS = "SELECT *, c.categoryTitle FROM post p INNER JOIN category c ON p.categoryId = c.categoryId ORDER BY postId DESC;";
     private String SELECTPOST = "SELECT *, c.categoryTitle FROM post p INNER JOIN category c ON p.categoryId = c.categoryId WHERE postId=?;";
 
-    //constructor
-    public BlogPostDAO() {}
-
-<<<<<<< HEAD
-    //--------------------------
-    //      SQL QUERIES
-    //--------------------------
-    // retireve all posts from DB
-    private String SELECTALLPOSTS = "select * from post";
-
-
 
     // Creates a connection to the database
-    protected Connection getConnection(){
-=======
     protected Connection getConnection() {
->>>>>>> origin/newLucy
         Connection connection = null;
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -61,14 +53,17 @@ public class BlogPostDAO {
             System.out.println(preparedStatement);
             rs = preparedStatement.executeQuery();
             while(rs.next()) {
-                String pTitle = rs.getString("postTitle");
-                String pDate = rs.getString("postDate");
-                String pAuthor = rs.getString("postAuthor");
-                String pContent = rs.getString("postContent");
-                int categoryId = rs.getInt("categoryId");
+                int postID = rs.getInt("postId");
+                String postTitle = rs.getString("postTitle");
+                String postDate = rs.getString("postDate");
+                String postAuthor = rs.getString("postAuthor");
+                String postContent = rs.getString("postContent");
+                Boolean isPostVisible = rs.getBoolean("postVisible");
+                int categoryID = rs.getInt("categoryID");
                 String categoryTitle = rs.getString("categoryTitle");
 
-                post = new BlogPost(Pid, pTitle,pDate,pAuthor,pContent,categoryId,categoryTitle);
+                // create an new object of type BlogPost and adds it to the list array <BlogPosts>
+                post = new BlogPost(postID,postTitle,postDate,postAuthor,postContent,isPostVisible,categoryID,categoryTitle);
             }
         }
         catch (SQLException e) {
@@ -80,7 +75,7 @@ public class BlogPostDAO {
         return post;
     }
 
-    //select all posts to list (Descending order)
+    /*//select all posts to list (Descending order)
     public List <BlogPost> selectAllPosts(){
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -93,8 +88,8 @@ public class BlogPostDAO {
             preparedStatement = connection.prepareStatement(SELECTALLPOSTS);
             System.out.println(preparedStatement);
             rs = preparedStatement.executeQuery();
+*/
 
-<<<<<<< HEAD
 
     // retrieve all posts and store it on an array list <BlogPost>
     public List <BlogPost> selectAllPosts(){
@@ -124,14 +119,29 @@ public class BlogPostDAO {
             while (rs.next()){
                 int postID = rs.getInt("postId");
                 String postTitle = rs.getString("postTitle");
-                Timestamp postDate = rs.getTimestamp("postDate");
+                String postDate = rs.getString("postDate");
                 String postAuthor = rs.getString("postAuthor");
                 String postContent = rs.getString("postContent");
                 Boolean isPostVisible = rs.getBoolean("postVisible");
                 int categoryID = rs.getInt("categoryID");
+                String categoryTitle = rs.getString("categoryTitle");
 
                 // create an new object of type BlogPost and adds it to the list array <BlogPosts>
-                blogPosts.add(new BlogPost(postID, postTitle, postDate, postAuthor, postContent, isPostVisible, categoryID));
+                blogPosts.add(new BlogPost(postID,postTitle,postDate,postAuthor,postContent,isPostVisible,categoryID,categoryTitle));
+
+
+
+                /*public BlogPost(int postID, String postTitle, String postDate, String postAuthor, String postContent, boolean isPostVisable, int categoryId, String categoryTitle) {
+                    this.postID = postID;
+                    this.postTitle = postTitle;
+                    this.postDate = postDate;
+                    this.postAuthor = postAuthor;
+                    this.postContent = postContent;
+                    this.isPostVisable = isPostVisable;
+                    this.categoryId = categoryId;
+                    this.categoryTitle = categoryTitle;
+                }*/
+
 
             } // end while
 
@@ -152,29 +162,6 @@ public class BlogPostDAO {
 
 
 
-    //method to close DB connection
-    private void finallySQLException(Connection c, PreparedStatement p, ResultSet r) {
-        System.out.println("DAO BlogPostDAO - closing connections");
-=======
-            while (rs.next()){
-                int postId = rs.getInt("postId");
-                String postTitle = rs.getString("postTitle");
-                String postDate = rs.getString("postDate");
-                String postAuthor = rs.getString("postAuthor");
-                String postContent = rs.getString("postContent");
-                int categoryId = rs.getInt("categoryId");
-                String categoryTitle = rs.getString("categoryTitle");
-
-                posts.add(new BlogPost(postId, postTitle, postDate, postAuthor, postContent, categoryId, categoryTitle));
-            }
-        } catch (SQLException e) {
-            printSQLException(e);
-        }
-        finally {
-            finallySQLException(connection,preparedStatement,rs);
-        }
-        return posts;
-    }
 
     private void printSQLException(SQLException ex) {
         for (Throwable e: ex) {
@@ -195,7 +182,6 @@ public class BlogPostDAO {
     }
 
     private void finallySQLException(Connection c, PreparedStatement p, ResultSet r){
->>>>>>> origin/newLucy
         if (r != null) {
             try {
                 r.close();

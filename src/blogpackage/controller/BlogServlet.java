@@ -16,43 +16,12 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-<<<<<<< HEAD
-@WebServlet(name = "/", value = "/BrewHouse")
-public class BlogServlet extends HttpServlet {
-
-    private static final long serialVersionUID = 1L;
-
-    //instace variables
-    private BlogPostDAO bpostDAO;
-
-    //constructor
-    public void init(){
-        System.out.println("Servlet - init()");
-        bpostDAO = new BlogPostDAO();
-    }
-
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("Servlet - running doPost()");
-
-        String action = request.getServletPath();
-
-        switch (action) {
-            case "/home":
-                System.out.println("Servlet - Switch - home");
-
-        }
-
-
-
-
-=======
-
 @WebServlet(name = "/", value = "/")
 public class BlogServlet extends HttpServlet {
     private  static final long serialVersionUID =1L;
     private CategoryDAO catDAO;
     private BlogPostDAO postDAO;
->>>>>>> origin/newLucy
+
 
     public BlogServlet(){
         catDAO = new CategoryDAO();
@@ -62,6 +31,7 @@ public class BlogServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getServletPath();
         String applicationPath = request.getContextPath();
+
         try {
             switch (action) {
                 //add category
@@ -90,8 +60,8 @@ public class BlogServlet extends HttpServlet {
             }
         } catch (SQLException ex) {
             throw new ServletException(ex);
-        }
-    }
+        } // end try
+    } // end doPost
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
@@ -132,4 +102,5 @@ public class BlogServlet extends HttpServlet {
         request.setAttribute("displayPost", existingPost);
         dispatcher.forward(request, response);
     }
-}
+
+} //end servlet
