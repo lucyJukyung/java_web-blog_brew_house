@@ -1,6 +1,22 @@
 <%--
   This page will be used for:
   ADD CATEGORY
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+  EDIT About us
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+<head>
+    <title>Brew House - Categories</title>
+</head>
+<body>
+
+</body>
+</html>
+=======
+>>>>>>> 3ab0b011279ea8df2f4064eae5ab574fde7b4d1b
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -35,3 +51,7 @@
 
 <!--import footer from WEB-INF/main-->
 <jsp:include page="footer.jsp" />
+<<<<<<< HEAD
+=======
+>>>>>>> origin/newLucy
+>>>>>>> 3ab0b011279ea8df2f4064eae5ab574fde7b4d1b

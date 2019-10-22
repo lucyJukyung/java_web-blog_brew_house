@@ -2,6 +2,19 @@
   admin console page
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+<html>
+<head>
+    <title>Brew House - Admin Console</title>
+</head>
+<body>
+
+</body>
+</html>
+=======
+>>>>>>> 3ab0b011279ea8df2f4064eae5ab574fde7b4d1b
 <!--import header from WEB-INF/main-->
 <jsp:include page="header.jsp" />
 
@@ -28,3 +41,7 @@
 
 <!--import footer from WEB-INF/main-->
 <jsp:include page="footer.jsp" />
+<<<<<<< HEAD
+=======
+>>>>>>> origin/newLucy
+>>>>>>> 3ab0b011279ea8df2f4064eae5ab574fde7b4d1b

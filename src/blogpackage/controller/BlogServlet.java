@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-
 @WebServlet(name = "/", value = "/")
 public class BlogServlet extends HttpServlet {
     private  static final long serialVersionUID =1L;
@@ -39,7 +38,7 @@ public class BlogServlet extends HttpServlet {
                     break;
                 //edit about us
                 case "/editAbout":
-                    editAboutUs(request,response);
+                    editAboutUs(request, response);
                     break;
                 //load about us page
                 case "/showAbout":
@@ -61,6 +60,7 @@ public class BlogServlet extends HttpServlet {
             throw new ServletException(ex);
         }
     }
+
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
@@ -101,4 +101,6 @@ public class BlogServlet extends HttpServlet {
         request.setAttribute("displayPost", existingPost);
         dispatcher.forward(request, response);
     }
-}
+
+} //end servlet
+
