@@ -7,7 +7,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!--import header from WEB-INF/main-->
-<jsp:include page="WEB-INF/main/header.jsp" />
+<jsp:include page="header.jsp" />
 
 <h1>About Us</h1>
 <p>
@@ -23,4 +23,4 @@
 
 
 <!--import footer from WEB-INF/main-->
-<jsp:include page="WEB-INF/main/footer.jsp" />
+<jsp:include page="footer.jsp" />

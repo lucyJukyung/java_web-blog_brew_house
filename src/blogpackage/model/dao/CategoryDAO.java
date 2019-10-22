@@ -56,6 +56,35 @@ public class CategoryDAO {
         }
     }
 
+    //display all category list
+    public List <Category> showCategory() {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet rs=null;
+        List <Category> cat = new ArrayList<>();
+
+        // using try-with-resources to avoid closing resources (boilerplate code)
+        try{
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(SELECTALLCATS);
+            System.out.println(preparedStatement);
+            rs = preparedStatement.executeQuery();
+
+            while (rs.next()){
+                int catId = rs.getInt("categoryId");
+                String catTitle = rs.getString("categoryTitle");
+                cat.add(new Category(catId, catTitle));
+            }
+        }
+        catch (SQLException e) {
+            printSQLException(e);
+        }
+        finally {
+            finallySQLException(connection,preparedStatement,rs);
+        }
+        return  cat;
+    }
+
     //insert about us sql connection and statement
     public void insertAboutUs(AboutUs about) throws SQLException {
         System.out.println(UPDATEABOUTSQL);

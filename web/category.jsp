@@ -6,7 +6,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!--import header from WEB-INF/main-->
-<jsp:include page="WEB-INF/main/header.jsp" />
+<jsp:include page="header.jsp" />
 
 <div align="center">
     <%
@@ -34,4 +34,4 @@
 </div>
 
 <!--import footer from WEB-INF/main-->
-<jsp:include page="WEB-INF/main/footer.jsp" />
+<jsp:include page="footer.jsp" />

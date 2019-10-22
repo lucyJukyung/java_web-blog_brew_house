@@ -7,7 +7,7 @@ import java.util.*;
 public class AdminDAO {
 
     //defining instance variables
-    private String DBURL = "jdbc:mysql://localhost:3306/EmployeeDB?serverTimezone=Australia/Sydney";
+    private String DBURL = "jdbc:mysql://localhost:3306/BlogDB?serverTimezone=Australia/Sydney";
     private String DBUsername = "root";
     private String DBPassword = "mysql123";
 

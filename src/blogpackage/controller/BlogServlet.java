@@ -30,6 +30,7 @@ public class BlogServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getServletPath();
+        String applicationPath = request.getContextPath();
         try {
             switch (action) {
                 //add category
@@ -46,6 +47,7 @@ public class BlogServlet extends HttpServlet {
                     break;
                 //load list of posts
                 case "/openPosts":
+                    System.out.println("ive ran");
                     showPosts(request, response);
                     break;
                 //load individual post
