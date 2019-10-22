@@ -57,7 +57,7 @@ public class CategoryDAO {
     }
 
     //display all category list
-    public List <Category> showCategory() {
+    public List <Category> selectCategory() {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet rs=null;

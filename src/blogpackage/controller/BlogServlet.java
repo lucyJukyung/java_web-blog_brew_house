@@ -35,6 +35,7 @@ public class BlogServlet extends HttpServlet {
                 //add category
                 case "/addCat":
                     insertCategory(request, response);
+                    showCategory(request, response);
                     break;
                 //edit about us
                 case "/editAbout":
@@ -52,6 +53,9 @@ public class BlogServlet extends HttpServlet {
                 //load individual post
                 case "/post":
                     loadPost(request, response);
+                    break;
+                case "/showCategories":
+                    showCategory(request, response);
                     break;
                 default:
                     break;
@@ -99,6 +103,14 @@ public class BlogServlet extends HttpServlet {
         BlogPost existingPost = postDAO.selectPost(id);
         RequestDispatcher dispatcher = request.getRequestDispatcher("post.jsp");
         request.setAttribute("displayPost", existingPost);
+        dispatcher.forward(request, response);
+    }
+
+    private void showCategory(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
+        List <Category> cat = catDAO.selectCategory();
+        request.setAttribute("showCategories", cat);
+        System.out.println("showCategory executed");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("category.jsp");
         dispatcher.forward(request, response);
     }
 

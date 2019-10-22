@@ -24,6 +24,18 @@
         <h3>Add New Category</h3>
         <input type="text" name="category" size="50" required />
         <input type = "submit" value="Save" />
+        <c:if test="${(request.getParameter('addCat') != null) && (showCategories != null)} ">
+            <div>
+                <h3>Category List</h3>
+                    <div id="catList">
+                       <p>
+                           <c:forEach var="catList" items="${showCategories}">
+                               <c:out value="${catList.getCname}" />
+                           </c:forEach>
+                       </p>
+                    </div>
+            </div>
+        </c:if>
     </form>
     <%
     }

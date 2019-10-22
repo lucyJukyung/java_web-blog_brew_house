@@ -5,17 +5,8 @@
 =======
 <<<<<<< HEAD
   EDIT About us
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Brew House - Categories</title>
-</head>
-<body>
-
-</body>
-</html>
 =======
+>>>>>>> origin/newLucy
 >>>>>>> 3ab0b011279ea8df2f4064eae5ab574fde7b4d1b
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -33,6 +24,18 @@
         <h3>Add New Category</h3>
         <input type="text" name="category" size="50" required />
         <input type = "submit" value="Save" />
+        <c:if test="${(request.getParameter('addCat') != null) && (showCategories != null)} ">
+            <div>
+                <h3>Category List</h3>
+                    <div id="catList">
+                       <p>
+                           <c:forEach var="catList" items="${showCategories}">
+                               <c:out value="${catList.getCname}" />
+                           </c:forEach>
+                       </p>
+                    </div>
+            </div>
+        </c:if>
     </form>
     <%
     }
@@ -51,7 +54,3 @@
 
 <!--import footer from WEB-INF/main-->
 <jsp:include page="footer.jsp" />
-<<<<<<< HEAD
-=======
->>>>>>> origin/newLucy
->>>>>>> 3ab0b011279ea8df2f4064eae5ab574fde7b4d1b
