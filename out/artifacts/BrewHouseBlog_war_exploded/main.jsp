@@ -24,19 +24,5 @@
     <% System.out.println(contextPath);%>
     <c:out value="${contextPath}"></c:out>
 
-<img src="/images/flower.png">
-<img src="<%=request.getContextPath()%>images/flower.png">
-<img src="<%=request.getContextPath()%>/images/dino.jpeg">
-<img src="<%=request.getContextPath()%>/images/dino.jpeg">
-<img src="${pageContext.request.contextPath}/images/dino.jpeg"/>
-<c:out value="${pageContext.request.contextPath}/images/dino.jpeg" />
-<input type="image" src="/images/dino.jpeg"/>
-
-
-
-
-
-<img src="../images/flower.png">
-
 </body>
 </html>
