@@ -16,12 +16,13 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet(name = "/", value = "/")
+@WebServlet(name = "BlogServlet", value = "/BlogServlet")
 public class BlogServlet extends HttpServlet {
     private  static final long serialVersionUID =1L;
     private CategoryDAO catDAO;
     private BlogPostDAO postDAO;
 
+///BrewHouseBlog_war_exploded
 
     public BlogServlet(){
         catDAO = new CategoryDAO();
@@ -29,8 +30,14 @@ public class BlogServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String action = request.getServletPath();
-        String applicationPath = request.getContextPath();
+        System.out.println("Servlet - Running doPost()");
+
+        //String action = request.getServletPath();
+
+        // instead of getting the ServletPath we will be
+        // getting the parameter action that is passed through by the form
+        String action = request.getParameter("action");
+
 
         try {
             switch (action) {
@@ -38,24 +45,40 @@ public class BlogServlet extends HttpServlet {
                 case "/addCat":
                     insertCategory(request, response);
                     break;
+
                 //edit about us
                 case "/editAbout":
                     editAboutUs(request,response);
                     break;
+
                 //load about us page
                 case "/showAbout":
                     showAboutUs(request, response);
                     break;
+
                 //load list of posts
-                case "/openPosts":
+                case "openPosts":
                     System.out.println("ive ran");
                     showPosts(request, response);
                     break;
+
                 //load individual post
                 case "/post":
                     loadPost(request, response);
                     break;
+
+                //action test
+                case "test":
+                    System.out.println("running from /test");
+                    break;
+
+                //action test2
+                case "test2":
+                    System.out.println("running from /test2");
+                    break;
+
                 default:
+                    System.out.println("running the default from Servlet - switch(action)");
                     break;
             }
         } catch (SQLException ex) {
@@ -64,6 +87,7 @@ public class BlogServlet extends HttpServlet {
     } // end doPost
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("running doGet");
         doPost(request, response);
     }
 
@@ -101,6 +125,10 @@ public class BlogServlet extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher("post.jsp");
         request.setAttribute("displayPost", existingPost);
         dispatcher.forward(request, response);
+    }
+
+    private void showCategory(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
+
     }
 
 } //end servlet

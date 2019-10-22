@@ -2,16 +2,6 @@
   admin console page
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<<<<<<< HEAD
-<html>
-<head>
-    <title>Brew House - Admin Console</title>
-</head>
-<body>
-
-</body>
-</html>
-=======
 <!--import header from WEB-INF/main-->
 <jsp:include page="header.jsp" />
 
@@ -29,8 +19,14 @@
 <h3> <input type="submit" name="" value="About Us" onclick="window.location='showAbout'"/></h3>
 
 <!-- test button for show posts page-->
-<h3> <input type="submit" name="" value="Posts" onclick="window.location='openPosts'"/>
+
+<h3> <input type="submit"  name="action" value="Posts"/>
     <% System.out.println(request.getContextPath() + "posts button clicked from admin.jsp");%></h3>
+
+<form action="/BlogServlet" method="post">
+    <input type="hidden" name="action" value="openPosts">
+    <input type="submit" name="action" value="Show all Posts"/>
+</form>
 
 <!-- Lucy temp buttons for testing end-->
 
@@ -38,4 +34,3 @@
 
 <!--import footer from WEB-INF/main-->
 <jsp:include page="footer.jsp" />
->>>>>>> origin/newLucy

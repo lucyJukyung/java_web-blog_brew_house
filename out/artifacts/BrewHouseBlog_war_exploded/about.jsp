@@ -4,16 +4,6 @@
   ABOUT US
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<<<<<<< HEAD
-<html>
-<head>
-    <title>Brew House - About us</title>
-</head>
-<body>
-
-</body>
-</html>
-=======
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!--import header from WEB-INF/main-->
@@ -34,4 +24,3 @@
 
 <!--import footer from WEB-INF/main-->
 <jsp:include page="footer.jsp" />
->>>>>>> origin/newLucy

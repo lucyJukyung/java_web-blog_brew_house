@@ -11,6 +11,19 @@
     <title>$Title$</title>
   </head>
   <body>
-  $END$
+
+  <form action="/BlogServlet" method="post">
+    <input type="hidden" name="action" value="test2">
+    <input type="submit" value="run test">
+  </form>
+
+
+  <form action="/BlogServlet" method="post">
+      <input type="hidden" name="action" value="test">
+      <input type="submit" value="run test()">
+  </form>
+
+  <img src="images/flower.png">
+
   </body>
 </html>

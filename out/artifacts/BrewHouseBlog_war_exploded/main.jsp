@@ -35,7 +35,7 @@
 <!--Lucy test show posts for testing-->
 <h1>Main List</h1>
 <img src="<%=request.getContextPath()%>/images/tasting.jpg">
-<% System.out.println(request.getContextPath()+"tasting.jpg loaded");%>
+<% System.out.println(request.getContextPath()+" tasting.jpg loaded");%>
 <main role="main">
 
     <div class="album py-5 bg-light">

@@ -29,22 +29,6 @@ public class BlogPost {
         this.categoryTitle = categoryTitle;
     }
 
-
-/*
-    int postID = rs.getInt("postId");
-    String postTitle = rs.getString("postTitle");
-    String postDate = rs.getString("postDate");
-    String postAuthor = rs.getString("postAuthor");
-    String postContent = rs.getString("postContent");
-    Boolean isPostVisible = rs.getBoolean("postVisible");
-    int categoryID = rs.getInt("categoryID");
-
-    // create an new object of type BlogPost and adds it to the list array <BlogPosts>
-                blogPosts.add(new BlogPost(postID, postTitle, postDate, postAuthor, postContent, isPostVisible, categoryID));*/
-
-
-
-
     public int getPostID() {
         return postID;
     }

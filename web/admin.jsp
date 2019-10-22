@@ -19,8 +19,14 @@
 <h3> <input type="submit" name="" value="About Us" onclick="window.location='showAbout'"/></h3>
 
 <!-- test button for show posts page-->
-<h3> <input type="submit" name="" value="Posts" onclick="window.location='openPosts'"/>
+
+<h3> <input type="submit"  name="action" value="Posts"/>
     <% System.out.println(request.getContextPath() + "posts button clicked from admin.jsp");%></h3>
+
+<form action="/BlogServlet" method="post">
+    <input type="hidden" name="action" value="openPosts">
+    <input type="submit" name="action" value="Show all Posts"/>
+</form>
 
 <!-- Lucy temp buttons for testing end-->
 

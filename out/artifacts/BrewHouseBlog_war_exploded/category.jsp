@@ -3,17 +3,8 @@
   ADD CATEGORY
 <<<<<<< HEAD
   EDIT About us
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Brew House - Categories</title>
-</head>
-<body>
-
-</body>
-</html>
 =======
+>>>>>>> origin/newLucy
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -48,4 +39,3 @@
 
 <!--import footer from WEB-INF/main-->
 <jsp:include page="footer.jsp" />
->>>>>>> origin/newLucy

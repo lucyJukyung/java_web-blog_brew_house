@@ -75,22 +75,6 @@ public class BlogPostDAO {
         return post;
     }
 
-    /*//select all posts to list (Descending order)
-    public List <BlogPost> selectAllPosts(){
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet rs = null;
-
-        List <BlogPost> posts = new ArrayList<>();
-
-        try{
-            connection = getConnection();
-            preparedStatement = connection.prepareStatement(SELECTALLPOSTS);
-            System.out.println(preparedStatement);
-            rs = preparedStatement.executeQuery();
-*/
-
-
     // retrieve all posts and store it on an array list <BlogPost>
     public List <BlogPost> selectAllPosts(){
         System.out.println("BlogPostDAO - selectAllPosts"); //debugging

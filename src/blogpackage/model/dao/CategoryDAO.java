@@ -8,11 +8,10 @@ import java.util.List;
 
 public class CategoryDAO {
 
-<<<<<<< HEAD
+
     //defining instance variables
-=======
+
     //Define instance variables for category and aboutUs
->>>>>>> origin/newLucy
     private String DBURL = "jdbc:mysql://localhost:3306/BlogDB?serverTimezone=Australia/Sydney";
     private String DBUsername = "root";
     private String DBPassword = "mysql123";
