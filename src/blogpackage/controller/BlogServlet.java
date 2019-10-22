@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.*;
 import javax.servlet.RequestDispatcher;
 
-@WebServlet(name = "BrewHouse", value = "/")
+@WebServlet(name = "/", value = "/BrewHouse")
 public class BlogServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("Servlet - doPost()");
