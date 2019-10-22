@@ -1,65 +1,183 @@
 package blogpackage.model.dao;
-
+import blogpackage.model.bean.AboutUs;
 import blogpackage.model.bean.Category;
+
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CategoryDAO {
 
+<<<<<<< HEAD
     //defining instance variables
+=======
+    //Define instance variables for category and aboutUs
+>>>>>>> origin/newLucy
     private String DBURL = "jdbc:mysql://localhost:3306/BlogDB?serverTimezone=Australia/Sydney";
     private String DBUsername = "root";
     private String DBPassword = "mysql123";
+    private String INSERTCATSQL = "INSERT INTO category (categoryTitle) VALUES " + " (?);";
+    private String SELECTALLCATS = "SELECT * FROM category;";
+    private String UPDATEABOUTSQL = "UPDATE aboutUs SET description=" + " (?) WHERE descId=1;";
+    private String SELECTDESCSQL = "SELECT * FROM aboutUs;";
 
-    // constructor
-    public CategoryDAO() {
-    }
+    //constructor
+    public CategoryDAO() {}
 
-    // Creates a connection to the database
-    protected Connection getConnection(){
+    protected Connection getConnection() {
         Connection connection = null;
-        System.out.println("DAO CategoryDAO - getConnection()"); //debugging
-
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection(DBURL, DBUsername, DBPassword);
-        } catch (SQLException e){
+        } catch (SQLException e) {
+            //Auto-generated catch block
             e.printStackTrace();
-        } catch (ClassNotFoundException e){
+        } catch (ClassNotFoundException e) {
+            //Auto-generated catch block
             e.printStackTrace();
         }
-
         return connection;
-    } // end getConnection
+    }
 
+    //insert category sql connection and statement
+    public void insertCategory(Category cat) throws SQLException {
+        System.out.println(INSERTCATSQL);
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
 
-    //method to close DB connection
-    private void finallySQLException(Connection c, PreparedStatement p, ResultSet r) {
-        System.out.println("DAO Category - closing connections");
+        // try-with-resource statement will auto close the connection.
+        try {
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(INSERTCATSQL);
+            preparedStatement.setString(1, cat.getCname());
+            System.out.println(preparedStatement);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            printSQLException(e);
+        } finally {
+            finallySQLException(connection,preparedStatement,null);
+        }
+    }
+
+    //display all category list
+    public List <Category> showCategory() {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet rs=null;
+        List <Category> cat = new ArrayList<>();
+
+        // using try-with-resources to avoid closing resources (boilerplate code)
+        try{
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(SELECTALLCATS);
+            System.out.println(preparedStatement);
+            rs = preparedStatement.executeQuery();
+
+            while (rs.next()){
+                int catId = rs.getInt("categoryId");
+                String catTitle = rs.getString("categoryTitle");
+                cat.add(new Category(catId, catTitle));
+            }
+        }
+        catch (SQLException e) {
+            printSQLException(e);
+        }
+        finally {
+            finallySQLException(connection,preparedStatement,rs);
+        }
+        return  cat;
+    }
+
+    //insert about us sql connection and statement
+    public void insertAboutUs(AboutUs about) throws SQLException {
+        System.out.println(UPDATEABOUTSQL);
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        // try-with-resource statement will auto close the connection.
+        try {
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(UPDATEABOUTSQL);
+            preparedStatement.setString(1, about.getDesc());
+            System.out.println(preparedStatement);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            printSQLException(e);
+        } finally {
+            finallySQLException(connection,preparedStatement,null);
+        }
+    }
+
+    public List <AboutUs> selectAboutUs() {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet rs=null;
+        List <AboutUs> about = new ArrayList<>();
+        // using try-with-resources to avoid closing resources (boilerplate code)
+
+        try{
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(SELECTDESCSQL);
+            //statement will retrieve desc from descId=1
+            System.out.println(preparedStatement);
+            rs = preparedStatement.executeQuery();
+
+            while (rs.next()){
+                int descId = rs.getInt("descId");
+                String desc = rs.getString("description");
+                about.add(new AboutUs(descId, desc));
+            }
+        }
+        catch (SQLException e) {
+            printSQLException(e);
+        }
+        finally {
+            finallySQLException(connection,preparedStatement,rs);
+        }
+        return  about;
+    }
+
+    //catch sql message when error occurs
+    private void printSQLException(SQLException ex) {
+        for (Throwable e: ex) {
+            if (e instanceof SQLException) {
+                e.printStackTrace(System.err);
+                System.err.println("SQLState: " + ((SQLException)
+                        e).getSQLState());
+                System.err.println("Error Code: " + ((SQLException)
+                        e).getErrorCode());
+                System.err.println("Message: " + e.getMessage());
+                Throwable t = ex.getCause();
+                while (t != null) {
+                    System.out.println("Cause: " + t);
+                    t = t.getCause();
+                }
+            }
+        }
+    }
+
+    //close sql statement and connection
+    private void finallySQLException(Connection c, PreparedStatement p, ResultSet r){
         if (r != null) {
             try {
                 r.close();
-            } catch (SQLException e) {
-                r = null;
-            }
-        } // end if resultset is not null
-
+            } catch (Exception e) {}
+            r = null;
+        }
         if (p != null) {
             try {
                 p.close();
-            } catch (SQLException e) {
-                p = null;
-            }
-        } // end if prepared statement is not null
-
+            } catch (Exception e) {}
+            p = null;
+        }
         if (c != null) {
             try {
                 c.close();
-            } catch (SQLException e) {
+            } catch (Exception e) {
                 c = null;
             }
-        } // end if connection is not null
-
-    } // end finallySQLException
-
+        }
+    }
 }

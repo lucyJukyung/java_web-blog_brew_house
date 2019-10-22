@@ -1,34 +1,34 @@
 package blogpackage.model.bean;
 
 public class Category {
+    protected int Cid;
+    protected String Cname;
 
-    protected int categoryID;
-    protected String categoryTitle;
-
-    // add more constructors as you need
     public Category() {
+
+    }
+    //Category getter and setter
+    public Category(String Cname) {
+        this.Cname = Cname;
     }
 
-    public Category(int categoryID, String categoryTitle) {
-        this.categoryID = categoryID;
-        this.categoryTitle = categoryTitle;
+    public Category(int Cid, String Cname) {
+        this.Cid = Cid;
+        this.Cname = Cname;
     }
 
-    // getters and setters
-    public int getCategoryID() {
-        return categoryID;
+    public int getCid() {
+        return Cid;
+    }
+    public void setCid(int Cid) {
+        this.Cid = Cid;
     }
 
-    public void setCategoryID(int categoryID) {
-        this.categoryID = categoryID;
+    public String getCname() {
+        return Cname;
     }
-
-    public String getCategoryTitle() {
-        return categoryTitle;
-    }
-
-    public void setCategoryTitle(String categoryTitle) {
-        this.categoryTitle = categoryTitle;
+    public void setCname(String Cname) {
+        this.Cname = Cname;
     }
 
 }
