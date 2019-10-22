@@ -68,8 +68,8 @@ public class BlogServlet extends HttpServlet {
                     break;
 
                 //action test
-                case "test":
-                    System.out.println("running from /test");
+                case "search":
+                    System.out.println("Servlet - Search()");
                     break;
 
                 //action test2

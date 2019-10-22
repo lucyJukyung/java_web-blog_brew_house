@@ -7,17 +7,36 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!doctype html>
-<html lang="en">
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- Brew House Header -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light ">
+    <span class="navbar-brand" href="#">
+        <i class="fas fa-beer fa-3x pl-2 align-middle"></i>
+        <span class="pl-5 text-monospace">
+                    Brew House
+        </span>
+    </span>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto text-left">
+            <li class="nav-item ml-5 ">
+                <a class="nav-link ml-2" href="main.jsp">HOME</a>
+            </li>
 
-    <title>Brew House</title>
+            <li class="nav-item">
+                <a class="nav-link ml-5" href="about.jsp">ABOUT US</a>
+            </li>
 
-</head>
-<body style="background-color: #e1e1e1">
+            <li class="nav-item">
+                <a class="nav-link ml-5" href="admin.jsp">ADMIN CONSOLE</a>
+            </li>
+
+        </ul>
+
+        <form class="form-inline" action="/BlogServlet" method="POST">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search..." aria-label="Search">
+            <input type="hidden" name="action" value="search">
+            <button class="btn btn-outline-dark my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
+        </form>
+
+    </div>
+</nav>
