@@ -2,7 +2,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<div class="fixed-bottom bg-white font-italic p-0">
+<div class="fixed-bottom bg-white mt-4 font-italic p-0">
     <div class="row">
         <div class="col text-center">
             Brew House - All rights reserved

@@ -74,7 +74,7 @@ public class BlogServlet extends HttpServlet {
                     break;
 
                 //load individual post
-                case "/post":
+                case "post":
                     loadPost(request, response);
                     break;
 

@@ -20,7 +20,12 @@
     <jsp:include page="header.jsp" />
     <%----%>
 
-    <div class="container">
+
+    <%-- probably how I will use anchor tags
+    <a href="CenterController?action=gohome">Go Home</a>
+    --%>
+
+    <div class="container mb-5">
         <div class="row mb-5"> <%--row 1--%>
 
             <div class="col-6 d-flex justify-content-start">
@@ -37,13 +42,56 @@
             </div>
         </div> <%--end row 1--%>
 
-        <div class="row">
-            <div class="col-sm">col-sm</div>
-            <div class="col-sm">col-sm</div>
-            <div class="col-sm">col-sm</div>
-        </div>
-    </div>
+        <%--
+        row 2 - blog posts
+        --%>
 
+        <div class="row">
+            <c:forEach var="post" items="${showPost}">
+                <%-- col 1, row 2--%>
+                <div class="col-4 d-flex justify-content-center">
+                    <div class="card border-secondary mb-3" style="max-width: 18rem;">
+                        <div class="card-header"><c:out value="${post.getCategoryTitle()}" /></div>
+                        <div class="card-body text-secondary">
+                            <h5 class="card-title">
+
+                                <a href="BlogServlet?action=post&id=<c:out value='${post.getPostID()}'/>">
+                                    <c:out value="${post.getPostTitle()}" />
+                                </a>
+
+                            </h5>
+                            <p class="card-text"><c:out value="${post.getPostContent()}" /></p>
+                        </div>
+                    </div>
+                </div>
+            </c:forEach>
+        </div>
+
+
+
+        <%--     col 2, row 2
+            <div class="col-4 d-flex justify-content-center">
+                <div class="card border-secondary mb-3" style="max-width: 18rem;">
+                    <div class="card-header">Header</div>
+                    <div class="card-body text-secondary">
+                        <h5 class="card-title">Secondary card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                </div>
+            </div>
+
+             col 3, row 2
+            <div class="col-4 d-flex justify-content-center">
+                <div class="card border-secondary mb-3" style="max-width: 18rem;">
+                    <div class="card-header">Header</div>
+                    <div class="card-body text-secondary">
+                        <h5 class="card-title">Secondary card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                </div>
+            </div>
+        </div> end row 2--%>
+    </div>
 
 
 
