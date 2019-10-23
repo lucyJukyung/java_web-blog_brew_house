@@ -15,28 +15,47 @@
         <script src="https://kit.fontawesome.com/b4abea9736.js" crossorigin="anonymous"></script>
     </head>
 
-<body>
+<body class="bg-light">
     <%--Header imported from header.jsp--%>
     <jsp:include page="header.jsp" />
     <%----%>
 
-    <img src="<%=request.getContextPath()%>/images/flower.png">
+    <div class="container">
+        <div class="row mb-5"> <%--row 1--%>
+
+            <div class="col-6 d-flex justify-content-start">
+                <img class="" src="images/hero_beer.jpeg">
+            </div>
+
+            <div class="col-6 d-flex flex-column justify-content-center bg-white">
+                <p class="h1 align-self-center text-monospace text-center">
+                    BREW HOUSE
+                </p>
+                <p class="align-self-center text-center h5 pt-2 font-weight-light">
+                    The luck is gone, the brain is shot, but the liquor we still got
+                </p>
+            </div>
+        </div> <%--end row 1--%>
+
+        <div class="row">
+            <div class="col-sm">col-sm</div>
+            <div class="col-sm">col-sm</div>
+            <div class="col-sm">col-sm</div>
+        </div>
+    </div>
+
+
+
+
+
+    <%--<img src="<%=request.getContextPath()%>/images/flower.png">
     <% String contextPath = request.getContextPath(); %>
     <% System.out.println(contextPath);%>
     <c:out value="${contextPath}"></c:out>
+    --%>
 
-
-
-
-<!--import header from WEB-INF/main-->
-
-
-<!--Lucy test show posts for testing-->
-<h1>Main List</h1>
-<img src="<%=request.getContextPath()%>/images/tasting.jpg">
-<% System.out.println(request.getContextPath()+" tasting.jpg loaded");%>
+<%--
 <main role="main">
-
     <div class="album py-5 bg-light">
         <div class="container">
             <div class="row">
@@ -62,6 +81,7 @@
     </div>
 
 </main>
+--%>
 
     <jsp:include page="footer.jsp" />
 

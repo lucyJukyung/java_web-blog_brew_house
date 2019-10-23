@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- Brew House Header -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light ">
+<nav class="navbar navbar-expand-lg navbar-light bg-white ">
     <span class="navbar-brand" href="#">
         <i class="fas fa-beer fa-3x pl-2 align-middle"></i>
         <span class="pl-5 text-monospace">
@@ -19,7 +19,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto text-left">
             <li class="nav-item ml-5 ">
-                <a class="nav-link ml-2" href="main.jsp">HOME</a>
+                <a class="nav-link ml-2" href="BlogServlet">HOME</a>
             </li>
 
             <li class="nav-item">

@@ -37,7 +37,18 @@ public class BlogServlet extends HttpServlet {
         // instead of getting the ServletPath we will be
         // getting the parameter action that is passed through by the form
         String action = request.getParameter("action");
+        System.out.println("Servlet - action passed is: " + action);
 
+        // if no parameter is passed through to the servlet,
+        // it displays the main.jsp with posts
+        if (action == null) {
+            System.out.println("running if statement for action = null");
+            try {
+                showPosts(request, response);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } // endif action == null
 
         try {
             switch (action) {
@@ -79,8 +90,11 @@ public class BlogServlet extends HttpServlet {
 
                 default:
                     System.out.println("running the default from Servlet - switch(action)");
+                    showPosts(request, response);
                     break;
-            }
+            } // switch end
+
+
         } catch (SQLException ex) {
             throw new ServletException(ex);
         } // end try
