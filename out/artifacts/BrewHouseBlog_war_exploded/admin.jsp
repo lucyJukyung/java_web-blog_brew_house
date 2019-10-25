@@ -14,14 +14,58 @@
         <script src="https://kit.fontawesome.com/b4abea9736.js" crossorigin="anonymous"></script>
     </head>
 
-    <body>
+    <body class="bg-light">
     <%--Header imported from header.jsp--%>
     <jsp:include page="header.jsp" />
     <%----%>
 
+    <div class="text-center mt-5">
+
+        <form class="w-25 mx-auto" action="BlogServlet" method="GET">
+
+                <span style="font-size: 13em;">
+                  <i class="fas fa-beer ml-5"></i>
+                </span>
 
 
-    <!-- Lucy temp buttons for testing -->
+            <h1 class="h3 mb-3 bt-5 font-weight-normal mb-4">Please sign in</h1>
+
+            <label for="username" class="sr-only">
+                Enter username
+            </label>
+
+            <input class="form-control" type="text" placeholder="Enter Username" name="username" required autofocus>
+
+            <label for="password" class="sr-only">
+                Password:
+            </label>
+
+            <input class="form-control" type="password" placeholder="Password" name="password" required>
+
+            <br>
+
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Login <i class="fas fa-sign-in-alt pl-2"></i></button>
+        </form>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<%--    <!-- Lucy temp buttons for testing -->
 
     <!-- form action for edit category and about us-->
     <form name="editCatAbout" action="category.jsp" method="get">
@@ -38,7 +82,7 @@
         <% System.out.println(request.getContextPath() + "posts button clicked from admin.jsp");%></h3>
 
     <form action="/BlogServlet" method="post">
-        <%--<input type="hidden" name="action" value="openPosts">--%>
+        &lt;%&ndash;<input type="hidden" name="action" value="openPosts">&ndash;%&gt;
         <input type="submit" name="action" value="Show all Posts"/>
         <input type="submit" name="action" value="openPosts">
         <input type="submit" name="action" value="test">
@@ -51,5 +95,5 @@
     <!--import footer from footer.jsp-->
     <jsp:include page="footer.jsp" />
 
-    </body>
+    </body>--%>
 </html>
