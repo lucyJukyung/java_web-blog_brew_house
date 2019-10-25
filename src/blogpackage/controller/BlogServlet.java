@@ -83,11 +83,6 @@ public class BlogServlet extends HttpServlet {
                     System.out.println("Servlet - Search()");
                     break;
 
-                //action test2
-                case "test2":
-                    System.out.println("running from /test2");
-                    break;
-
                 default:
                     System.out.println("running the default from Servlet - switch(action)");
                     showPosts(request, response);

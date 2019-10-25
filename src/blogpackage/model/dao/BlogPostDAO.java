@@ -21,7 +21,9 @@ public class BlogPostDAO {
     private String DBURL = "jdbc:mysql://localhost:3306/BlogDB?serverTimezone=Australia/Sydney";
     private String DBUsername = "root";
     private String DBPassword = "mysql123";
-    private String SELECTALLPOSTS = "SELECT *, c.categoryTitle FROM post p INNER JOIN category c ON p.categoryId = c.categoryId ORDER BY postId DESC;";
+
+    //I've changed the query so the date is captured in the right format
+    private String SELECTALLPOSTS = "SELECT postId, postTitle, date_format(postDate, \"%d-%m-%y\") as postDate, postAuthor, postContent, postVisible, p.categoryID, c.categoryTitle FROM post p INNER JOIN category c ON p.categoryId = c.categoryId ORDER BY postId DESC;";
     private String SELECTPOST = "SELECT *, c.categoryTitle FROM post p INNER JOIN category c ON p.categoryId = c.categoryId WHERE postId=?;";
 
 
@@ -109,9 +111,13 @@ public class BlogPostDAO {
                 Boolean isPostVisible = rs.getBoolean("postVisible");
                 int categoryID = rs.getInt("categoryID");
                 String categoryTitle = rs.getString("categoryTitle");
+                //System.out.println("post content: " + postContent);
+                String[] subString = postContent.split("\\.", 0);
+                String postSummary = subString[0];
+
 
                 // create an new object of type BlogPost and adds it to the list array <BlogPosts>
-                blogPosts.add(new BlogPost(postID,postTitle,postDate,postAuthor,postContent,isPostVisible,categoryID,categoryTitle));
+                blogPosts.add(new BlogPost(postID,postTitle,postDate,postAuthor,postContent,isPostVisible,categoryID,categoryTitle, postSummary));
 
 
 

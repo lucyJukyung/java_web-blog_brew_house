@@ -50,7 +50,7 @@
             <c:forEach var="post" items="${showPost}">
                 <%-- col 1, row 2--%>
                 <div class="col-4 d-flex justify-content-center">
-                    <div class="card border-secondary mb-3" style="max-width: 18rem;">
+                    <div class="card  mb-3" style="max-width: 18rem;">
                         <div class="card-header"><c:out value="${post.getCategoryTitle()}" /></div>
                         <div class="card-body text-secondary">
                             <h5 class="card-title">
@@ -60,7 +60,8 @@
                                 </a>
 
                             </h5>
-                            <p class="card-text"><c:out value="${post.getPostContent()}" /></p>
+                            <p class="card-text"><c:out value="${post.getPostSummary()}"/>...</p>
+                            <p class="">Date Posted: <c:out value="${post.getPostDate()}"/></p>
                         </div>
                     </div>
                 </div>
