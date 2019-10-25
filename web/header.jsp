@@ -33,7 +33,7 @@
         </ul>
 
         <form class="form-inline" action="/BlogServlet" method="POST">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search..." aria-label="Search">
+            <input class="form-control mr-sm-2" name="query" type="search" placeholder="Search..." required>
             <input type="hidden" name="action" value="search">
             <button class="btn btn-outline-dark my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
         </form>

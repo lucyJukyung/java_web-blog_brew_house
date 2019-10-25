@@ -26,6 +26,12 @@ public class BlogPostDAO {
     private String SELECTALLPOSTS = "SELECT postId, postTitle, date_format(postDate, \"%d-%m-%y\") as postDate, postAuthor, postContent, postVisible, p.categoryID, c.categoryTitle FROM post p INNER JOIN category c ON p.categoryId = c.categoryId ORDER BY postId DESC;";
     private String SELECTPOST = "SELECT *, c.categoryTitle FROM post p INNER JOIN category c ON p.categoryId = c.categoryId WHERE postId=?;";
 
+    //Search query
+    private String SELECTALLPOSTSWHERE = "SELECT postId, postTitle, date_format(postDate, \"%d-%m-%y\") as postDate, postAuthor, postContent, postVisible, p.categoryID, c.categoryTitle " +
+            "FROM post p INNER JOIN category c ON p.categoryId = c.categoryId " +
+            "WHERE postTitle LIKE ? " +
+            "OR postContent LIKE ? " +
+            "ORDER BY postId DESC;";
 
     // Creates a connection to the database
     protected Connection getConnection() {
@@ -120,19 +126,6 @@ public class BlogPostDAO {
                 blogPosts.add(new BlogPost(postID,postTitle,postDate,postAuthor,postContent,isPostVisible,categoryID,categoryTitle, postSummary));
 
 
-
-                /*public BlogPost(int postID, String postTitle, String postDate, String postAuthor, String postContent, boolean isPostVisable, int categoryId, String categoryTitle) {
-                    this.postID = postID;
-                    this.postTitle = postTitle;
-                    this.postDate = postDate;
-                    this.postAuthor = postAuthor;
-                    this.postContent = postContent;
-                    this.isPostVisable = isPostVisable;
-                    this.categoryId = categoryId;
-                    this.categoryTitle = categoryTitle;
-                }*/
-
-
             } // end while
 
         } catch (SQLException e) {
@@ -146,7 +139,69 @@ public class BlogPostDAO {
     } // end selectAllPosts
 
 
+    // retrieve all posts and store it on an array list <BlogPost>
+    public List <BlogPost> selectAllPostsWhere(String userQuery){
+        System.out.println("BlogPostDAO - selectAllPostsWhere()"); //debugging
 
+        // create an List Array "blogPosts" to store objects of the type BlogPost (java bean)
+        List <BlogPost> blogPosts = new ArrayList<>();
+        System.out.println("BlogPostDAO - blogPosts arraylist created");
+
+        //initialize DB variables
+        Connection connection = null;
+        PreparedStatement preparedStatement =  null;
+        ResultSet rs = null;
+        System.out.println("BlogPostDAO - connection prepStatement and rs created");
+
+        //stablishing a connection
+        try {
+            // 1. step 1, connection
+            connection = getConnection();
+            System.out.println("BlogPostDAO - getConnection()");
+
+            // 2. step 2, set the prepared statement
+            preparedStatement = connection.prepareStatement(SELECTALLPOSTSWHERE);
+            System.out.println("BlogPostDAO - Query SELECTALLPOSTSWHERE called");
+
+            preparedStatement.setString(1, "%" + userQuery + "%");
+            System.out.println("BlogPostDAO - adding first ?");
+
+            preparedStatement.setString(2, "%" + userQuery + "%");
+            System.out.println("BlogPostDAO - Running query: " + preparedStatement);
+
+            // 3. step 3, execute the query using the prepared statement
+            rs = preparedStatement.executeQuery();
+
+            // 4. step 4, iterating through the ResultSet and adding values to the array
+            while (rs.next()){
+                int postID = rs.getInt("postId");
+                String postTitle = rs.getString("postTitle");
+                String postDate = rs.getString("postDate");
+                String postAuthor = rs.getString("postAuthor");
+                String postContent = rs.getString("postContent");
+                Boolean isPostVisible = rs.getBoolean("postVisible");
+                int categoryID = rs.getInt("categoryID");
+                String categoryTitle = rs.getString("categoryTitle");
+                //System.out.println("post content: " + postContent);
+                String[] subString = postContent.split("\\.", 0);
+                String postSummary = subString[0];
+
+
+                // create an new object of type BlogPost and adds it to the list array <BlogPosts>
+                blogPosts.add(new BlogPost(postID,postTitle,postDate,postAuthor,postContent,isPostVisible,categoryID,categoryTitle, postSummary));
+
+
+            } // end while
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            finallySQLException(connection,preparedStatement,rs);
+        } //end try/catch/finally
+
+        return blogPosts;
+
+    } // end selectAllPostsWhere
 
 
 

@@ -81,6 +81,7 @@ public class BlogServlet extends HttpServlet {
                 //action test
                 case "search":
                     System.out.println("Servlet - Search()");
+                    searchQuery(request, response);
                     break;
 
                 default:
@@ -134,6 +135,19 @@ public class BlogServlet extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher("post.jsp");
         request.setAttribute("displayPost", existingPost);
         dispatcher.forward(request, response);
+    }
+
+    private void searchQuery(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
+        String userQuery = request.getParameter("query");
+        System.out.println("Servlet The user search for: " + userQuery);
+        List <BlogPost> fetchedPosts = postDAO.selectAllPostsWhere(userQuery);
+        System.out.println("Servlet - searchQuery() fetchedPosts length: " + fetchedPosts.size());
+        request.setAttribute("fetchedPosts", fetchedPosts);
+        request.setAttribute("query", userQuery);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("search.jsp");
+        dispatcher.forward(request, response);
+        System.out.println("Servlet - end of searchQuery");
+
     }
 
     private void showCategory(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{

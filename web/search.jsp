@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Search Page
 --%>
@@ -14,9 +15,22 @@
         <script src="https://kit.fontawesome.com/b4abea9736.js" crossorigin="anonymous"></script>
     </head>
 
-    <body>
+    <body class="bg-light">
     <%--Header imported from header.jsp--%>
     <jsp:include page="header.jsp" />
+
+    <c:if test="${fetchedPosts.isEmpty()}">
+        <div>
+            <p class="h4 text-center mt-4 text-info">Sorry, there are no results for <span class="font-italic h3"><c:out value="${query}"></c:out></span> ... </p>
+        </div>
+    </c:if>
+
+    <c:if test="${!fetchedPosts.isEmpty()}">
+        <div>
+            <p class="h4 text-center mt-4 text-info">Showing results for <span class="font-italic h3"><c:out value="${query}"></c:out></span> ... </p>
+        </div>
+    </c:if>
+
 
 
     <%--Footer imported from footer.jsp--%>

@@ -107,4 +107,5 @@ public class BlogPost {
     public void setPostSummary(String postSummary) {
         this.postSummary = postSummary;
     }
+
 }
