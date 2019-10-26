@@ -25,7 +25,77 @@
 
         <c:when test="${sessionScope.username != null}">
             <%--If there's a session, display admin console--%>
-            <h>ADMIN CONSOLE</h>
+            <div class="container">
+
+                <div class="row mt-5">
+
+                    <p class="h1 text-monospace font-weight-bolder">
+                        ADMIN CONSOLE
+                    </p>
+                </div>
+
+
+                <div class="row justify-content-between mt-5">
+
+                    <div class="col">
+                        <!-- BLOG POSTS -->
+
+                        <!-- FOR EACH POST -->
+                        <c:forEach var="post" items="${showPost}">
+                            <div class="row justify-content-start">
+
+                                <div class="col-4 d-flex mb-4 justify-content-center">
+
+
+                                    <div class="card  mb-3" style="max-width: 18rem; min-width: 18rem;">
+                                        <div class="card-header">
+                                            <c:out value="${post.getCategoryTitle()}" />
+                                        </div>
+                                        <div class="card-body text-secondary">
+                                            <h5 class="card-title">
+
+                                                <a href="BlogServlet?action=post&id=<c:out value='${post.getPostID()}'/>">
+                                                    <c:out value="${post.getPostTitle()}" />
+                                                </a>
+
+                                            </h5>
+                                            <p class="card-text">
+                                                <c:out value="${post.getPostSummary()}" />...</p>
+                                            <p class="">Date Posted:
+                                                <c:out value="${post.getPostDate()}" />
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                </div> <!-- End of each card-->
+
+
+                                <div class="col-3 text-monospace">
+                                    <a href="BlogServlet?action=edit?id=<c:out value="${post.getPostID()}"></c:out>" class="text-dark text-decoration-none">EDIT</a>
+                                    <span>|</span>
+                                    <a href="BlogServlet?action=delete?id=<c:out value="${post.getPostID()}"></c:out>" class="text-dark text-decoration-none">DELETE</a>
+                                </div>
+
+
+                            </div> <!-- End of ForEach-->
+                        </c:forEach>
+
+
+                    </div> <!--end end of posts col-->
+
+                    <!-- Menu col -->
+                    <div class="col-3 mt-n5 ml-n5">
+                        <a href="BlogServlet?action=" class="btn btn-lg btn-info text-monospace mb-3 btn-block text-left"><i class="far fa-paper-plane mr-4"></i>NEW POST</a>
+                        <a href="BlogServlet?action=" class="btn btn-lg btn-info text-monospace mb-3 btn-block text-left"><i class="far fa-file mr-4"></i>NEW CATEGORY</a>
+                        <a href="BlogServlet?action=" class="btn btn-lg btn-info text-monospace mb-3 btn-block text-left"><i class="far fa-edit mr-3"></i>EDIT ABOUT</a>
+                        <a href="BlogServlet?action=logout" class="btn btn-lg btn-info text-monospace mb-3 btn-block text-left"><i class="fas fa-sign-out-alt mr-3"></i>LOGOUT</a>
+                    </div>
+
+
+                </div> <!-- END of row-->
+
+            </div> <!-- END of CONTAINER-->
+
         </c:when>
 
         <c:otherwise> <%--When there is no session, display the login page--%>
@@ -70,52 +140,6 @@
     </c:choose>
 
 
+    </body>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<%--    <!-- Lucy temp buttons for testing -->
-
-    <!-- form action for edit category and about us-->
-    <form name="editCatAbout" action="category.jsp" method="get">
-        <h3> <input type="submit" name="addCat" value="Add category"/></a> </h3>
-        <h3> <input type="submit" name="about" value="Edit about us"/></a> </h3>
-    </form>
-
-    <!-- test button for about us page-->
-    <h3> <input type="submit" name="" value="About Us" onclick="window.location='showAbout'"/></h3>
-
-    <!-- test button for show posts page-->
-
-    <h3> <input type="submit"  name="action" value="Posts"/>
-        <% System.out.println(request.getContextPath() + "posts button clicked from admin.jsp");%></h3>
-
-    <form action="/BlogServlet" method="post">
-        &lt;%&ndash;<input type="hidden" name="action" value="openPosts">&ndash;%&gt;
-        <input type="submit" name="action" value="Show all Posts"/>
-        <input type="submit" name="action" value="openPosts">
-        <input type="submit" name="action" value="test">
-    </form>
-
-    <!-- Lucy temp buttons for testing end-->
-
-
-
-    <!--import footer from footer.jsp-->
-    <jsp:include page="footer.jsp" />
-
-    </body>--%>
 </html>

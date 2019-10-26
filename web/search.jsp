@@ -35,7 +35,7 @@
                 <c:forEach var="post" items="${fetchedPosts}">
                     <%-- col 1, row 2--%>
                     <div class="col-4 d-flex justify-content-center">
-                        <div class="card  mb-5" style="max-width: 18rem;">
+                        <div class="card  mb-5" style="max-width: 18rem; min-width: 18rem;">
                             <div class="card-header"><c:out value="${post.getCategoryTitle()}" /></div>
                             <div class="card-body text-secondary">
                                 <h5 class="card-title">

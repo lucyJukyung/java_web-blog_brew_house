@@ -82,6 +82,10 @@ public class AdminDAO {
                         -1 + " " + username + " " + pwd + " false");
             }
 
+            if (username == null) {
+                admin = new Admin(-2, username, password, false);
+            }
+
 
         } catch (SQLException e) {
             e.printStackTrace();

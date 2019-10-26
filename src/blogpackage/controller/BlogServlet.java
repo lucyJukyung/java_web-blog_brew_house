@@ -25,6 +25,7 @@ public class BlogServlet extends HttpServlet {
     private CategoryDAO catDAO;
     private BlogPostDAO postDAO;
     private AdminDAO adminDAO;
+    private static boolean isSession = false;
 
 ///BrewHouseBlog_war_exploded
 
@@ -94,6 +95,11 @@ public class BlogServlet extends HttpServlet {
                     userLogin(request, response);
                     break;
 
+                case "logout":
+                    System.out.println("Servlet - logout()");
+                    userLogout(request, response);
+                    break;
+
                 default:
                     System.out.println("running the default from Servlet - switch(action)");
                     showPosts(request, response);
@@ -157,10 +163,12 @@ public class BlogServlet extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher("search.jsp");
         dispatcher.forward(request, response);
         System.out.println("Servlet - end of searchQuery");
-
     }
 
+    // method called when user tries to login on Admin Console
     private void userLogin(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
+        System.out.println("Servlet - userLogin()");
+
         // store the parameter "username" that was passed through the form
         String username = request.getParameter("username");
         System.out.println("Servlet - username passed: " + username);
@@ -178,7 +186,14 @@ public class BlogServlet extends HttpServlet {
         if (userAdmin.getAuthenticated()) {
             HttpSession session = request.getSession();
             session.setAttribute("username", username);
+            isSession = true;
         }
+
+        if (isSession) {
+            List <BlogPost> post = postDAO.selectAllPosts();
+            request.setAttribute("showPost", post);
+        }
+
 
         request.setAttribute("userAdmin", userAdmin);
         RequestDispatcher dispatcher = request.getRequestDispatcher("admin.jsp");
@@ -186,6 +201,17 @@ public class BlogServlet extends HttpServlet {
         System.out.println("Servlet - end of userLogin");
 
 
+    } // end of userLogin()
+
+
+    // method called when user logout from admin console
+    private void userLogout(HttpServletRequest request, HttpServletResponse response) throws  ServletException, ServletException, IOException {
+        // this method retrieves the session from the user and removes it while redirecting to admin.jsp
+        HttpSession session = request.getSession();
+        session.removeAttribute("username");
+        session.invalidate();
+        response.sendRedirect("admin.jsp");
+        isSession = false;
     }
 
     private void showCategory(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{

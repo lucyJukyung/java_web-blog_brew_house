@@ -27,7 +27,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link ml-5" href="admin.jsp">ADMIN CONSOLE</a>
+                <a class="nav-link ml-5" href="BlogServlet?action=login">ADMIN CONSOLE</a>
             </li>
 
         </ul>
