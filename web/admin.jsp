@@ -20,40 +20,55 @@
     <jsp:include page="header.jsp" />
     <%----%>
 
-    <div class="text-center mt-5">
 
-        <form class="w-25 mx-auto" action="/BlogServlet" method="POST">
+    <c:choose>
 
-                <span style="font-size: 13em;">
-                  <i class="fas fa-beer ml-5"></i>
-                </span>
+        <c:when test="${sessionScope.username != null}">
+            <%--If there's a session, display admin console--%>
+            <h>ADMIN CONSOLE</h>
+        </c:when>
+
+        <c:otherwise> <%--When there is no session, display the login page--%>
+
+            <div class="text-center mt-5">
+
+                <form class="w-25 mx-auto" action="/BlogServlet" method="POST">
+
+                        <span style="font-size: 13em;">
+                          <i class="fas fa-beer ml-5"></i>
+                        </span>
 
 
-            <h1 class="h3 mb-3 bt-5 font-weight-normal mb-4">Please sign in</h1>
+                    <h1 class="h3 mb-3 bt-5 font-weight-normal mb-4">Please sign in</h1>
 
-            <label for="username" class="sr-only">
-                Enter username
-            </label>
+                    <label for="username" class="sr-only">
+                        Enter username
+                    </label>
 
-            <input class="form-control" type="text" placeholder="Enter Username" name="username" required autofocus>
+                    <input class="form-control" type="text" placeholder="Enter Username" name="username" required autofocus>
 
-            <label for="password" class="sr-only">
-                Password:
-            </label>
+                    <label for="password" class="sr-only">
+                        Password:
+                    </label>
 
-            <input class="form-control" type="password" placeholder="Password" name="password" required>
+                    <input class="form-control" type="password" placeholder="Password" name="password" required>
 
-            <br>
+                    <br>
 
-            <input type="hidden" name="action" value="login">
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Login <i class="fas fa-sign-in-alt pl-2"></i></button>
-        </form>
+                    <input type="hidden" name="action" value="login">
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">Login <i class="fas fa-sign-in-alt pl-2"></i></button>
+                </form>
 
-        <c:if test="${(userAdmin != null) && (userAdmin.getAdminID() == -1) }">
-            <h1>Usuario invalido</h1>
-        </c:if>
+                <c:if test="${(userAdmin != null) && (userAdmin.getAdminID() == -1) }">
+                    <p class="text-danger">You have entered the wrong credentials</p>
+                </c:if>
 
-    </div>
+            </div>
+
+    </c:otherwise>
+
+    </c:choose>
+
 
 
 
