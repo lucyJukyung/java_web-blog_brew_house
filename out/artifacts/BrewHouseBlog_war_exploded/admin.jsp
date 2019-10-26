@@ -72,9 +72,9 @@
 
 
                                 <div class="col-3 text-monospace">
-                                    <a href="BlogServlet?action=edit?id=<c:out value="${post.getPostID()}"></c:out>" class="text-dark text-decoration-none">EDIT</a>
+                                    <a href="BlogServlet?action=edit&id=<c:out value="${post.getPostID()}"></c:out>" class="text-dark text-decoration-none">EDIT</a>
                                     <span>|</span>
-                                    <a href="BlogServlet?action=delete?id=<c:out value="${post.getPostID()}"></c:out>" class="text-dark text-decoration-none" onclick="return confirmPostDeletion();">DELETE</a>
+                                    <a href="BlogServlet?action=delete&id=<c:out value="${post.getPostID()}"></c:out>" class="text-dark text-decoration-none" onclick="return confirmPostDeletion();">DELETE</a>
                                 </div>
 
 

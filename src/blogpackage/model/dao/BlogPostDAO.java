@@ -36,6 +36,7 @@ public class BlogPostDAO {
             "FROM post p INNER JOIN category c ON p.categoryId = c.categoryId " +
             "WHERE postTitle LIKE ? " +
             "OR postContent LIKE ? " +
+            "AND postVisible = 1 " +
             "ORDER BY postId DESC " +
             "LIMIT 10;";
 

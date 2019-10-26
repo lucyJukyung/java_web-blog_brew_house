@@ -232,7 +232,7 @@ public class BlogServlet extends HttpServlet {
         int postID = Integer.parseInt(request.getParameter("id"));
         boolean isPostDeleted = postDAO.deletePost(postID);
         System.out.println("Servlet - post: " + postID + " deleted? " + isPostDeleted);
-        response.sendRedirect("admin.jsp");
+        response.sendRedirect("BlogServlet?action=login");
     }
 
 
