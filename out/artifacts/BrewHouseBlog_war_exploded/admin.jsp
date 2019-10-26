@@ -67,20 +67,18 @@
                                         </div>
                                     </div>
 
-
-
                                 </div> <!-- End of each card-->
+
 
                                 <div class="col-3 text-monospace">
                                     <a href="BlogServlet?action=edit?id=<c:out value="${post.getPostID()}"></c:out>" class="text-dark text-decoration-none">EDIT</a>
                                     <span>|</span>
-                                    <a href="#" class="text-dark text-decoration-none">DELETE</a>
+                                    <a href="BlogServlet?action=delete?id=<c:out value="${post.getPostID()}"></c:out>" class="text-dark text-decoration-none">DELETE</a>
                                 </div>
 
 
                             </div> <!-- End of ForEach-->
                         </c:forEach>
-
 
 
                     </div> <!--end end of posts col-->
@@ -97,18 +95,6 @@
                 </div> <!-- END of row-->
 
             </div> <!-- END of CONTAINER-->
-
-
-
-
-
-
-
-
-
-
-
-
 
         </c:when>
 
@@ -154,52 +140,6 @@
     </c:choose>
 
 
+    </body>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<%--    <!-- Lucy temp buttons for testing -->
-
-    <!-- form action for edit category and about us-->
-    <form name="editCatAbout" action="category.jsp" method="get">
-        <h3> <input type="submit" name="addCat" value="Add category"/></a> </h3>
-        <h3> <input type="submit" name="about" value="Edit about us"/></a> </h3>
-    </form>
-
-    <!-- test button for about us page-->
-    <h3> <input type="submit" name="" value="About Us" onclick="window.location='showAbout'"/></h3>
-
-    <!-- test button for show posts page-->
-
-    <h3> <input type="submit"  name="action" value="Posts"/>
-        <% System.out.println(request.getContextPath() + "posts button clicked from admin.jsp");%></h3>
-
-    <form action="/BlogServlet" method="post">
-        &lt;%&ndash;<input type="hidden" name="action" value="openPosts">&ndash;%&gt;
-        <input type="submit" name="action" value="Show all Posts"/>
-        <input type="submit" name="action" value="openPosts">
-        <input type="submit" name="action" value="test">
-    </form>
-
-    <!-- Lucy temp buttons for testing end-->
-
-
-
-    <!--import footer from footer.jsp-->
-    <jsp:include page="footer.jsp" />
-
-    </body>--%>
 </html>

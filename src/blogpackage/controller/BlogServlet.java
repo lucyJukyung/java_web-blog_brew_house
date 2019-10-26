@@ -50,7 +50,7 @@ public class BlogServlet extends HttpServlet {
         if (action == null) {
             System.out.println("running if statement for action = null");
             try {
-                showPosts(request, response);
+                showVisiblePosts(request, response);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -76,7 +76,7 @@ public class BlogServlet extends HttpServlet {
                 //load list of posts
                 case "openPosts":
                     System.out.println("ive ran");
-                    showPosts(request, response);
+                    showVisiblePosts(request, response);
                     break;
 
                 //load individual post
@@ -102,7 +102,7 @@ public class BlogServlet extends HttpServlet {
 
                 default:
                     System.out.println("running the default from Servlet - switch(action)");
-                    showPosts(request, response);
+                    showVisiblePosts(request, response);
                     break;
             } // switch end
 
@@ -140,6 +140,13 @@ public class BlogServlet extends HttpServlet {
 
     private void showPosts(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
         List <BlogPost> post = postDAO.selectAllPosts();
+        request.setAttribute("showPost", post);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("main.jsp");
+        dispatcher.forward(request, response);
+    }
+
+    private void showVisiblePosts(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
+        List <BlogPost> post = postDAO.selectAllVisiblePosts();
         request.setAttribute("showPost", post);
         RequestDispatcher dispatcher = request.getRequestDispatcher("main.jsp");
         dispatcher.forward(request, response);

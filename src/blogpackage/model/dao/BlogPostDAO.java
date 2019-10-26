@@ -24,6 +24,11 @@ public class BlogPostDAO {
 
     //I've changed the query so the date is captured in the right format
     private String SELECTALLPOSTS = "SELECT postId, postTitle, date_format(postDate, \"%d-%m-%y\") as postDate, postAuthor, postContent, postVisible, p.categoryID, c.categoryTitle FROM post p INNER JOIN category c ON p.categoryId = c.categoryId ORDER BY postId DESC;";
+    private String SELECTALLVISIBLEPOSTS = "SELECT postId, postTitle, date_format(postDate, \"%d-%m-%y\") as postDate, postAuthor, postContent, postVisible, p.categoryID, c.categoryTitle " +
+            "FROM post p INNER JOIN category c ON p.categoryId = c.categoryId " +
+            "WHERE postVisible = 1 " +
+            "ORDER BY postId DESC;";
+
     private String SELECTPOST = "SELECT *, c.categoryTitle FROM post p INNER JOIN category c ON p.categoryId = c.categoryId WHERE postId=?;";
 
     //Search query
@@ -137,6 +142,63 @@ public class BlogPostDAO {
         return blogPosts;
 
     } // end selectAllPosts
+
+
+    // retrieve all posts and store it on an array list <BlogPost>
+    public List <BlogPost> selectAllVisiblePosts(){
+        System.out.println("BlogPostDAO - selectAllPosts"); //debugging
+
+        // create an List Array "blogPosts" to store objects of the type BlogPost (java bean)
+        List <BlogPost> blogPosts = new ArrayList<>();
+
+        //initialize DB variables
+        Connection connection = null;
+        PreparedStatement preparedStatement =  null;
+        ResultSet rs = null;
+
+        //stablishing a connection
+        try {
+            // 1. step 1, connection
+            connection = getConnection();
+
+            // 2. step 2, set the prepared statement
+            preparedStatement = connection.prepareStatement(SELECTALLVISIBLEPOSTS);
+            System.out.println("BlogPostDAO - Running query: " + preparedStatement);
+
+            // 3. step 3, execute the query using the prepared statement
+            rs = preparedStatement.executeQuery();
+
+            // 4. step 4, iterating through the ResultSet and adding values to the array
+            while (rs.next()){
+                int postID = rs.getInt("postId");
+                String postTitle = rs.getString("postTitle");
+                String postDate = rs.getString("postDate");
+                String postAuthor = rs.getString("postAuthor");
+                String postContent = rs.getString("postContent");
+                Boolean isPostVisible = rs.getBoolean("postVisible");
+                int categoryID = rs.getInt("categoryID");
+                String categoryTitle = rs.getString("categoryTitle");
+                //System.out.println("post content: " + postContent);
+                String[] subString = postContent.split("\\.", 0);
+                String postSummary = subString[0];
+
+
+                // create an new object of type BlogPost and adds it to the list array <BlogPosts>
+                blogPosts.add(new BlogPost(postID,postTitle,postDate,postAuthor,postContent,isPostVisible,categoryID,categoryTitle, postSummary));
+
+
+            } // end while
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            finallySQLException(connection,preparedStatement,rs);
+        } //end try/catch/finally
+
+        return blogPosts;
+
+    } // end selectAllPosts
+
 
 
     // retrieve all posts and store it on an array list <BlogPost>
