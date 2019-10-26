@@ -36,7 +36,12 @@ public class BlogPostDAO {
             "FROM post p INNER JOIN category c ON p.categoryId = c.categoryId " +
             "WHERE postTitle LIKE ? " +
             "OR postContent LIKE ? " +
-            "ORDER BY postId DESC;";
+            "ORDER BY postId DESC " +
+            "LIMIT 10;";
+
+    //Delete post query
+    private String DELETPOST = "Delete from post where postid = ?";
+
 
     // Creates a connection to the database
     protected Connection getConnection() {
@@ -265,6 +270,34 @@ public class BlogPostDAO {
 
     } // end selectAllPostsWhere
 
+
+    public boolean deletePost(int postid) throws SQLException{
+        System.out.println("BlogPostDAO - deletePost()");
+
+        boolean isPostDeleted = false;
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(DELETPOST);
+            preparedStatement.setInt(1, postid);
+
+            System.out.println("DAO - executing query: " + preparedStatement);
+            isPostDeleted = preparedStatement.executeUpdate() > 0 ? true:false; //returns true if a post is deleted, otherwise, false
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            finallySQLException(connection, preparedStatement, null);
+        } // end try-catch
+
+        return isPostDeleted;
+
+
+    }
 
 
 

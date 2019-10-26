@@ -100,6 +100,11 @@ public class BlogServlet extends HttpServlet {
                     userLogout(request, response);
                     break;
 
+                case "delete":
+                    System.out.println("Servlet - delete()");
+                    deletePost(request, response);
+                    break;
+
                 default:
                     System.out.println("running the default from Servlet - switch(action)");
                     showVisiblePosts(request, response);
@@ -207,12 +212,11 @@ public class BlogServlet extends HttpServlet {
         dispatcher.forward(request, response);
         System.out.println("Servlet - end of userLogin");
 
-
     } // end of userLogin()
 
 
     // method called when user logout from admin console
-    private void userLogout(HttpServletRequest request, HttpServletResponse response) throws  ServletException, ServletException, IOException {
+    private void userLogout(HttpServletRequest request, HttpServletResponse response) throws  ServletException, SQLException, IOException {
         // this method retrieves the session from the user and removes it while redirecting to admin.jsp
         HttpSession session = request.getSession();
         session.removeAttribute("username");
@@ -220,6 +224,17 @@ public class BlogServlet extends HttpServlet {
         response.sendRedirect("admin.jsp");
         isSession = false;
     }
+
+
+    private void deletePost(HttpServletRequest request, HttpServletResponse response) throws  ServletException, SQLException, IOException{
+        System.out.println("Servlet - deletePost()");
+
+        int postID = Integer.parseInt(request.getParameter("id"));
+        boolean isPostDeleted = postDAO.deletePost(postID);
+        System.out.println("Servlet - post: " + postID + " deleted? " + isPostDeleted);
+        response.sendRedirect("admin.jsp");
+    }
+
 
     private void showCategory(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
 

@@ -13,6 +13,7 @@
         <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
         <!-- <script src="/js/bootstrap.min.js"></script> -->
         <script src="https://kit.fontawesome.com/b4abea9736.js" crossorigin="anonymous"></script>
+        <script src="js/scripts.js"></script>
     </head>
 
     <body class="bg-light">
@@ -73,7 +74,7 @@
                                 <div class="col-3 text-monospace">
                                     <a href="BlogServlet?action=edit?id=<c:out value="${post.getPostID()}"></c:out>" class="text-dark text-decoration-none">EDIT</a>
                                     <span>|</span>
-                                    <a href="BlogServlet?action=delete?id=<c:out value="${post.getPostID()}"></c:out>" class="text-dark text-decoration-none">DELETE</a>
+                                    <a href="BlogServlet?action=delete?id=<c:out value="${post.getPostID()}"></c:out>" class="text-dark text-decoration-none" onclick="return confirmPostDeletion();">DELETE</a>
                                 </div>
 
 
