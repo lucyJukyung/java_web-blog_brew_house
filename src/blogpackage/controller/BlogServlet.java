@@ -1,8 +1,10 @@
 package blogpackage.controller;
 
 import blogpackage.model.bean.AboutUs;
+import blogpackage.model.bean.Admin;
 import blogpackage.model.bean.BlogPost;
 import blogpackage.model.bean.Category;
+import blogpackage.model.dao.AdminDAO;
 import blogpackage.model.dao.BlogPostDAO;
 import blogpackage.model.dao.CategoryDAO;
 
@@ -12,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -21,10 +24,12 @@ public class BlogServlet extends HttpServlet {
     private  static final long serialVersionUID =1L;
     private CategoryDAO catDAO;
     private BlogPostDAO postDAO;
+    private AdminDAO adminDAO;
 
 ///BrewHouseBlog_war_exploded
 
     public BlogServlet(){
+        adminDAO = new AdminDAO();
         catDAO = new CategoryDAO();
         postDAO = new BlogPostDAO();
     }
@@ -78,10 +83,15 @@ public class BlogServlet extends HttpServlet {
                     loadPost(request, response);
                     break;
 
-                //action test
+                //button search on header
                 case "search":
                     System.out.println("Servlet - Search()");
                     searchQuery(request, response);
+                    break;
+
+                case "login":
+                    System.out.println("Servlet - login()");
+                    userLogin(request, response);
                     break;
 
                 default:
@@ -147,6 +157,34 @@ public class BlogServlet extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher("search.jsp");
         dispatcher.forward(request, response);
         System.out.println("Servlet - end of searchQuery");
+
+    }
+
+    private void userLogin(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
+        // store the parameter "username" that was passed through the form
+        String username = request.getParameter("username");
+        System.out.println("Servlet - username passed: " + username);
+
+        // store the parameter "password" that was passed through the form
+        String password = request.getParameter("password");
+        System.out.println("Servlet - password passed: " + password);
+
+        Admin userAdmin = new Admin();
+        System.out.println("Servlet - userAdmin object created");
+
+        userAdmin = adminDAO.checkCredentials(username, password);
+        System.out.println("Servlet - calling the AdminDAO method");
+
+        if (userAdmin.getAuthenticated()) {
+            HttpSession session = request.getSession();
+            session.setAttribute("username", username);
+        }
+
+        request.setAttribute("userAdmin", userAdmin);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("admin.jsp");
+        dispatcher.forward(request, response);
+        System.out.println("Servlet - end of userLogin");
+
 
     }
 

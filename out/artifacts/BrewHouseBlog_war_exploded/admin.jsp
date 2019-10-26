@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   admin console page
 --%>
@@ -21,7 +22,7 @@
 
     <div class="text-center mt-5">
 
-        <form class="w-25 mx-auto" action="BlogServlet" method="GET">
+        <form class="w-25 mx-auto" action="/BlogServlet" method="POST">
 
                 <span style="font-size: 13em;">
                   <i class="fas fa-beer ml-5"></i>
@@ -44,8 +45,14 @@
 
             <br>
 
+            <input type="hidden" name="action" value="login">
             <button class="btn btn-lg btn-primary btn-block" type="submit">Login <i class="fas fa-sign-in-alt pl-2"></i></button>
         </form>
+
+        <c:if test="${(userAdmin != null) && (userAdmin.getAdminID() == -1) }">
+            <h1>Usuario invalido</h1>
+        </c:if>
+
     </div>
 
 
