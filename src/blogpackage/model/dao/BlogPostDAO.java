@@ -16,15 +16,19 @@ public class BlogPostDAO {
     private String DBURL = "jdbc:mysql://localhost:3306/BlogDB?serverTimezone=Australia/Sydney";
     private String DBUsername = "root";
     private String DBPassword = "mysql123";
-    private String SELECTALLPOSTS = "SELECT *, c.categoryTitle FROM post p INNER JOIN category c ON p.categoryId = c.categoryId ORDER BY postId DESC;";
-    private String SELECTPOST = "SELECT *, c.categoryTitle FROM post p INNER JOIN category c ON p.categoryId = c.categoryId WHERE postId=?;";
+    //sql query modified
+    private String SELECTALLPOSTS = "SELECT * FROM post p INNER JOIN category c ON p.categoryId = c.categoryId ORDER BY postId DESC;";
+    //sql query modified
+    private String SELECTPOST = "SELECT * FROM post p INNER JOIN category c ON p.categoryId = c.categoryId WHERE postId=?;";
 
     //constructor
-    public BlogPostDAO() {}
+    public BlogPostDAO() {
+    }
 
     // Creates a connection to the database
     protected Connection getConnection() {
         Connection connection = null;
+        System.out.println("BlogPostDAO - getConnection()");
         try {
             Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection(DBURL, DBUsername, DBPassword);
@@ -37,19 +41,21 @@ public class BlogPostDAO {
     }
 
     //select post from user click
-    public BlogPost selectPost(int Pid){
+    public BlogPost selectPost(int Pid) {
+        System.out.println("BlogPostDAO - selectPost");
         BlogPost post = null;
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;
 
-        try{
+        try {
             connection = getConnection();
             preparedStatement = connection.prepareStatement(SELECTPOST);
             preparedStatement.setInt(1, Pid);
             System.out.println(preparedStatement);
             rs = preparedStatement.executeQuery();
-            while(rs.next()) {
+
+            while (rs.next()) {
                 int postID = rs.getInt("postId");
                 String postTitle = rs.getString("postTitle");
                 String postDate = rs.getString("postDate");
@@ -60,29 +66,27 @@ public class BlogPostDAO {
                 String categoryTitle = rs.getString("categoryTitle");
 
                 // create an new object of type BlogPost and adds it to the list array <BlogPosts>
-                post = new BlogPost(postID,postTitle,postDate,postAuthor,postContent,isPostVisible,categoryID,categoryTitle);
+                post = new BlogPost(postID, postTitle, postDate, postAuthor, postContent, isPostVisible, categoryID, categoryTitle);
 
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             printSQLException(e);
-        }
-        finally {
-            finallySQLException(connection,preparedStatement,rs);
+        } finally {
+            finallySQLException(connection, preparedStatement, rs);
         }
         return post;
     }
 
     // retrieve all posts and store it on an array list <BlogPost>
-    public List <BlogPost> selectAllPosts(){
+    public List<BlogPost> selectAllPosts() {
         System.out.println("BlogPostDAO - selectAllPosts"); //debugging
 
         // create an List Array "blogPosts" to store objects of the type BlogPost (java bean)
-        List <BlogPost> blogPosts = new ArrayList<>();
+        List<BlogPost> blogPosts = new ArrayList<>();
 
         //initialize DB variables
         Connection connection = null;
-        PreparedStatement preparedStatement =  null;
+        PreparedStatement preparedStatement = null;
         ResultSet rs = null;
 
         //stablishing a connection
@@ -98,7 +102,7 @@ public class BlogPostDAO {
             rs = preparedStatement.executeQuery();
 
             // 4. step 4, iterating through the ResultSet and adding values to the array
-            while (rs.next()){
+            while (rs.next()) {
                 int postID = rs.getInt("postId");
                 String postTitle = rs.getString("postTitle");
                 String postDate = rs.getString("postDate");
@@ -109,14 +113,14 @@ public class BlogPostDAO {
                 String categoryTitle = rs.getString("categoryTitle");
 
                 // create an new object of type BlogPost and adds it to the list array <BlogPosts>
-                blogPosts.add(new BlogPost(postID,postTitle,postDate,postAuthor,postContent,isPostVisible,categoryID,categoryTitle));
+                blogPosts.add(new BlogPost(postID, postTitle, postDate, postAuthor, postContent, isPostVisible, categoryID, categoryTitle));
 
             } // end while
 
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            finallySQLException(connection,preparedStatement,rs);
+            finallySQLException(connection, preparedStatement, rs);
         } //end try/catch/finally
 
         return blogPosts;
@@ -125,7 +129,7 @@ public class BlogPostDAO {
 
 
     private void printSQLException(SQLException ex) {
-        for (Throwable e: ex) {
+        for (Throwable e : ex) {
             if (e instanceof SQLException) {
                 e.printStackTrace(System.err);
                 System.err.println("SQLState: " + ((SQLException)
@@ -142,17 +146,20 @@ public class BlogPostDAO {
         }
     }
 
-    private void finallySQLException(Connection c, PreparedStatement p, ResultSet r){
+    private void finallySQLException(Connection c, PreparedStatement p, ResultSet r) {
+        System.out.println("BlogPostDAO Comment - closing connections");
         if (r != null) {
             try {
                 r.close();
-            } catch (Exception e) {}
+            } catch (Exception e) {
+            }
             r = null;
         }
         if (p != null) {
             try {
                 p.close();
-            } catch (Exception e) {}
+            } catch (Exception e) {
+            }
             p = null;
         }
         if (c != null) {

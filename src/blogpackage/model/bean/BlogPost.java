@@ -13,7 +13,7 @@ public class BlogPost {
     private int categoryId;
     private String categoryTitle;
 
-    public BlogPost(){
+    public BlogPost() {
 
     }
 
@@ -33,12 +33,15 @@ public class BlogPost {
     public int getPostID() {
         return postID;
     }
+
     public void setPostID(int postID) {
         this.postID = postID;
     }
+
     public String getPostTitle() {
         return postTitle;
     }
+
     public void setPostTitle(String postTitle) {
         this.postTitle = postTitle;
     }
@@ -46,35 +49,51 @@ public class BlogPost {
     public String getPostDate() {
         return postDate;
     }
+
     public void setPostDate(String postDate) {
         this.postDate = postDate;
     }
+
     public String getPostAuthor() {
         return postAuthor;
     }
+
     public void setPostAuthor(String postAuthor) {
         this.postAuthor = postAuthor;
     }
+
     public String getPostContent() {
         return postContent;
     }
+
     public void setPostContent(String postContent) {
         this.postContent = postContent;
     }
+
     public boolean isPostVisable() {
         return isPostVisable;
     }
+
     public void setPostVisable(boolean isPostVisable) {
         this.isPostVisable = isPostVisable;
     }
 
     //Added categoryId getter and setter to display in showPosts.jsp
-    public  int getCategoryId(){
+    public int getCategoryId() {
         return categoryId;
     }
-    public void setCategoryId(int categoryId){
-        this.categoryId = categoryId;
 
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    //Add categoryTitle getter and setter
+    public String getCategoryTitle() {
+        return categoryTitle;
+    }
+
+    public void setCategoryTitle(String categoryTitle) {
+        this.categoryTitle = categoryTitle;
     }
 
 }
