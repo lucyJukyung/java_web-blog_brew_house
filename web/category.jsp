@@ -26,7 +26,12 @@
         #addTxt {
             width: 80%;
         }
-        #saveCat #saveAbout, #cancelBtn{
+        #saveCat{
+            margin-left: 30px;
+            width: 150px;
+        }
+
+        #saveAbout, #cancelBtn{
             margin-left: 30px;
             width: 150px;
         }
