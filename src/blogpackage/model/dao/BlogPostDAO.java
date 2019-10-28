@@ -45,6 +45,11 @@ public class BlogPostDAO {
     private String DELETPOST = "Delete from post where postid = ?";
 
 
+    //Update Post Query
+    private String UPDATEPOST = "UPDATE post set postTitle = ?, postDate = ?, postAuthor = ?, postContent = ?, postVisible = ?, categoryId = ? " +
+            "where postId = ?;";
+
+
     // Creates a connection to the database
     protected Connection getConnection() {
         Connection connection = null;
@@ -334,6 +339,45 @@ public class BlogPostDAO {
 
     } // end InsertPost
 
+
+    // method called to update a post
+    public boolean updatePost(BlogPost modifiedPost) throws SQLException{
+
+        System.out.println("BlogPostDAO - updatePost()");
+
+        boolean isPostUpdated = false;
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        /*"UPDATE post set postTitle = ?, postDate = ?, postAuthor = ?, postContent = ?, postVisible = ?, categoryId = ?" +
+                "where postId = ?;";*/
+        try {
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(UPDATEPOST);
+
+            preparedStatement.setString(1, modifiedPost.getPostTitle());
+            preparedStatement.setString(2, modifiedPost.getPostDate());
+            preparedStatement.setString(3, modifiedPost.getPostAuthor());
+            preparedStatement.setString(4, modifiedPost.getPostContent());
+            preparedStatement.setBoolean(5, modifiedPost.getPostVisible());
+            preparedStatement.setInt(6,  modifiedPost.getCategoryId());
+            preparedStatement.setInt(7, modifiedPost.getPostID());
+
+            System.out.println("BlogPostDAO - executing query: " +preparedStatement);
+            isPostUpdated = preparedStatement.executeUpdate() > 0 ? true:false;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            finallySQLException(connection,preparedStatement,null);
+        } // end try-catch
+
+        return isPostUpdated;
+
+
+    } // end updatePost
+
     private void printSQLException(SQLException ex) {
         for (Throwable e: ex) {
             if (e instanceof SQLException) {
@@ -373,4 +417,6 @@ public class BlogPostDAO {
             }
         }
     }
+
+
 }

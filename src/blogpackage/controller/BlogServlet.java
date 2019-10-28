@@ -153,6 +153,12 @@ public class BlogServlet extends HttpServlet {
                     editPost(request, response);
                     break;
 
+                // method called when Post button is pressed on new post
+                case "updatePost":
+                    System.out.println("Servlet - Update Post()");
+                    updatePost(request,response);
+                    break;
+
                 default:
                     System.out.println("running the default from Servlet - switch(action)");
                     showVisiblePosts(request, response);
@@ -410,18 +416,66 @@ public class BlogServlet extends HttpServlet {
     } // END insert post
 
     // method called to editPosts
-    private void editPost(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+    private void editPost(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
         System.out.println("Servlet - editPost()");
 
         int postID = Integer.parseInt(request.getParameter("postID"));
         HttpSession session = request.getSession();
 
-        BlogPost existingPost =
+        BlogPost existingPost = postDAO.selectPost(postID);
 
-        session.setAttribute("postID", this.postID);
-        response.sendRedirect("editpost.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("newpost.jsp");
 
+        request.setAttribute("existingPost", existingPost);
+        dispatcher.forward(request, response);
     }
+
+    //method called to update posts
+    private void updatePost(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+        System.out.println("Servlet - inside updatePost() method");
+
+        int postID = Integer.parseInt(request.getParameter("postID"));
+        System.out.println("Retrieved postID " + postID);
+
+        String postTitle = request.getParameter("title");
+        System.out.println("Retrieved title " + postTitle);
+
+        Date currentDate = new Date(Calendar.getInstance().getTime().getTime());
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String dateAsString = formatter.format(currentDate);
+        System.out.println("updated date " + dateAsString);
+
+        HttpSession session = request.getSession(false);
+        String loggedUser = (String) session.getAttribute("username");
+        System.out.println("retrieved username:" + loggedUser);
+
+        String postContent = request.getParameter("content");
+        System.out.println("retrieved content " + postContent);
+
+        boolean isPostVisible = false;
+        String isBoxTicked = request.getParameter("ticked");
+        if (isBoxTicked == null || isBoxTicked.length() == 0 || isBoxTicked.isBlank()) {
+            System.out.println("setting the post to true");
+            isPostVisible = true;
+        }else if(isBoxTicked.equals("checked")){
+            System.out.println("setting the post to false");
+            isPostVisible = false;
+        }
+        System.out.println("sorted out visibility: " + isPostVisible);
+
+        int categoryId = Integer.parseInt(request.getParameter("category"));
+        System.out.println("retrieved category" + categoryId);
+
+        BlogPost modifiedPost = new BlogPost(postID, postTitle, dateAsString, loggedUser, postContent, isPostVisible, categoryId);
+
+        System.out.println("created a new BlogPost Bean");
+
+        postDAO.updatePost(modifiedPost);
+        /*boolean isPostUpdated = postDAO.updatePost(updatedPost);
+        System.out.println("Servlet - post: " + postID + " updated? " + isPostUpdated);*/
+        response.sendRedirect("BlogServlet?action=login");
+
+    } //end updatePost
 
 
     private void openNewPost(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {

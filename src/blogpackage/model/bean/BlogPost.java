@@ -44,6 +44,16 @@ public class BlogPost {
         this.categoryTitle = categoryTitle;
     }
 
+    public BlogPost(int postID, String postTitle, String dateAsString, String loggedUser, String postContent, boolean isPostVisible, int categoryId) {
+        this.postID = postID;
+        this.postTitle = postTitle;
+        this.postDate = dateAsString;
+        this.postAuthor = loggedUser;
+        this.postContent = postContent;
+        this.isPostVisible = isPostVisible;
+        this.categoryId = categoryId;
+    }
+
 
     //displayALLToTerminal
     public void displayPost() {

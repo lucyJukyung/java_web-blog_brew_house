@@ -40,12 +40,32 @@
         </div>
 
         <form action="/BlogServlet" method="post" class="mt-3">
-            <input type="hidden" name="action" value="insertPost">
+
+            <c:choose>
+                <c:when test="${existingPost == null}">
+                    <input type="hidden" name="action" value="insertPost">
+                </c:when>
+                <c:otherwise>
+                    <input type="hidden" name="action" value="updatePost">
+                    <input type="hidden" name="postID" value="<c:out value="${existingPost.getPostID()}"></c:out>">
+                </c:otherwise>
+            </c:choose>
+
             <div class="form-row">
                 <!-- <input type="hidden" name="action" value="insertPost"> -->
                 <div class="form-group col-md-6">
                     <label for="title">Post Title</label>
-                    <input type="text" name="title" class="form-control" placeholder="Title...">
+                    
+                    <%--conditional for new post and edit post - TITLE--%>
+                    <c:choose>
+                        <c:when test="${existingPost != null}">
+                            <input type="text" name="title" class="form-control" value="<c:out value="${existingPost.getPostTitle()}"></c:out>">
+                        </c:when>
+                        <c:otherwise>
+                            <input type="text" name="title" class="form-control" placeholder="Title...">
+                        </c:otherwise>
+                    </c:choose>
+                    <%-- END of conditional for new post and edit post - TITLE--%>
                 </div>
             </div>
 
@@ -54,13 +74,19 @@
                 request.setAttribute("AllCategories", catDAO.SelectAllCategories());
             %>
 
-
             <div class="form-row">
                 <div class="form-group col-md-4">
                     <% //input all categories into dropdown list %>
                     Select category
                     <label for="inputState">Select Category</label>
                     <select id="inputState" name="category" class="form-control">
+
+                        <%-- Conditional for EDIT post--%>
+                        <c:if test="${existingPost != null}">
+                            <option selected value="${existingPost.getCategoryId()}">${existingPost.getCategoryTitle()}</option>
+                        </c:if>
+                        <%-- END Conditional for EDIT post--%>
+
                         <c:forEach var="tempCat" items="${AllCategories}">
                             <option value="${tempCat.categoryID}">${tempCat.categoryTitle}</option>
                         </c:forEach>
@@ -70,7 +96,32 @@
 
             <div class="form-group">
                 <div class="form-check">
-                    <input type="checkbox" name="ticked" value="checked" class="form-check-input"/>
+
+                    <%--conditional for new post and edit post - POST VISIBILITY--%>
+                    <c:choose>
+                        <c:when test="${existingPost != null}">
+
+                            <%--IF post is VISIBLE--%>
+                            <c:choose>
+                                <c:when test="${existingPost.isPostVisable()}">
+                                    <input type="checkbox" name="ticked" value="checked" class="form-check-input"/>
+                                </c:when>
+
+                                <c:otherwise>
+                                    <input type="checkbox" name="ticked" value="checked" class="form-check-input" checked/>
+                                </c:otherwise>
+
+                            </c:choose>
+
+                        </c:when>
+
+                        <c:otherwise>
+                            <input type="checkbox" name="ticked" value="checked" class="form-check-input"/>
+                        </c:otherwise>
+                    </c:choose>
+                    <%-- END conditional for new post and edit post - POST VISIBILITY--%>
+
+
                     <label class="form-check-label" for="gridCheck">
                         Make Post Invisible
                     </label>
@@ -80,12 +131,26 @@
             <div class="form-row">
                 <div class="form-group col-8">
                     <% /* use tinymce */ %>
-                    <textarea id="default" name="content"></textarea>
+
+                    <c:choose>
+                        <c:when test="${existingPost != null}">
+                            <textarea id="default" name="content">
+                                <c:out value="${existingPost.getPostContent()}"></c:out>
+                            </textarea>
+
+                        </c:when>
+
+                        <c:otherwise>
+                            <textarea id="default" name="content"></textarea>
+                        </c:otherwise>
+
+                    </c:choose>
+
                     <%----%>
                 </div>
             </div>
 
-            <input type="hidden" name="action" value="login">
+            <%--<input type="hidden" name="action" value="login">--%>
             <input type="submit" class="btn btn-primary" value="Post">
         </form>
     </div>
