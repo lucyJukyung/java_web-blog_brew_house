@@ -159,6 +159,17 @@ public class BlogServlet extends HttpServlet {
                     updatePost(request,response);
                     break;
 
+                case "editCat":
+                    editShowCategory(request,response);
+                    System.out.println("BlogServlet - switch: editCat executed");
+                    break;
+
+                //update category added
+                case "updateCat":
+                    updateCategory(request, response);
+                    System.out.println("BlogServlet - switch: updateCat executed");
+                    break;
+
                 default:
                     System.out.println("running the default from Servlet - switch(action)");
                     showVisiblePosts(request, response);
@@ -476,6 +487,25 @@ public class BlogServlet extends HttpServlet {
         response.sendRedirect("BlogServlet?action=login");
 
     } //end updatePost
+
+
+    private void editShowCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        Category currentCat = catDAO.selectCategory(id);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/BlogServlet?action=showCategories");
+        request.setAttribute("currentCat", currentCat);
+        dispatcher.forward(request, response);
+        System.out.println("selected categoryId = " + id);
+    }
+
+    private void updateCategory(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        String Cname = request.getParameter("category").trim();
+        Category c = new Category(id, Cname);
+        catDAO.updateCategory(c);
+        System.out.println("updated category Id = " + id);
+        response.sendRedirect("/BlogServlet?action=showCategories");
+    }
 
 
     private void openNewPost(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
