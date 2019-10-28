@@ -5,12 +5,23 @@ public class Comment {
     protected int commentID;
     protected String commentOwner;
     protected String commentContent;
+    protected int postId;
 
     // constructor
-    public Comment(int commentID, String commentOwner, String commentContent) {
+    public Comment() {
+    }
+
+    public Comment(String commentOwner, String commentContent, int postId) {
+        this.commentOwner = commentOwner;
+        this.commentContent = commentContent;
+        this.postId = postId;
+    }
+
+    public Comment(int commentID, String commentOwner, String commentContent, int postId) {
         this.commentID = commentID;
         this.commentOwner = commentOwner;
         this.commentContent = commentContent;
+        this.postId = postId;
     }
 
     // getters and setters
@@ -36,5 +47,13 @@ public class Comment {
 
     public void setCommentContent(String commentContent) {
         this.commentContent = commentContent;
+    }
+
+    public int getPostId() {
+        return postId;
+    }
+
+    public void setPostId(int postId) {
+        this.postId = postId;
     }
 }

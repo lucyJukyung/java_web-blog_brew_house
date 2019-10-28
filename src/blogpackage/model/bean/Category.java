@@ -7,6 +7,7 @@ public class Category {
     public Category() {
 
     }
+
     //Category getter and setter
     public Category(String Cname) {
         this.Cname = Cname;
@@ -20,6 +21,7 @@ public class Category {
     public int getCid() {
         return Cid;
     }
+
     public void setCid(int Cid) {
         this.Cid = Cid;
     }
@@ -27,6 +29,7 @@ public class Category {
     public String getCname() {
         return Cname;
     }
+
     public void setCname(String Cname) {
         this.Cname = Cname;
     }
