@@ -23,7 +23,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link ml-5" href="about.jsp">ABOUT US</a>
+                <a class="nav-link ml-5" href="BlogServlet?action=showAbout">ABOUT US</a>
             </li>
 
             <li class="nav-item">

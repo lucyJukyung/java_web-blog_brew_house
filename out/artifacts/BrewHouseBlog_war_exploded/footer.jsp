@@ -9,7 +9,7 @@
         </div>
         <div class="col-6 navbar-link">
             <a href="BlogServlet" class="nav-item text-muted m-4 text-decoration-none">HOME</a>
-            <a href="about.jsp" class="nav-item text-muted m-4 text-decoration-none">ABOUT US</a>
+            <a href="BlogServlet?action=showAbout" class="nav-item text-muted m-4 text-decoration-none">ABOUT US</a>
             <a href="BlogServlet?action=login" class="nav-item text-muted m-4 text-decoration-none ">ADMIN CONSOLE</a>
         </div>
     </div>
