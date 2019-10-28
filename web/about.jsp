@@ -15,12 +15,63 @@
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
     <!-- <script src="/js/bootstrap.min.js"></script> -->
     <script src="https://kit.fontawesome.com/b4abea9736.js" crossorigin="anonymous"></script>
+
+    <%-- importing javascript for modal --%>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    < <%-- importing javascript for modal --%>
 
     <script type="text/javascript">
+        $(document).ready(function () {
 
+            $('#exampleModal').on('show.bs.modal', function (e) {
+                var name = $('#contactName').val();
+                /*var email = $('#contactEmail').val();
+                var detail = $('#detail').val();*/
+
+                //Pass Values
+                $('#prntName').html(name);
+                //$('#prntEmail').html(email);
+
+                /*$("#contactSave").click(function(){
+                    var name = $('#contactName').val();
+                    var email = $('#contactEmail').val();
+                    var detail = $('#detail').val();
+                    var error = null;
+
+                    if(name == ""){
+                        error="Name is requried";
+                        else{
+                            $('#prntName').html(name);
+
+                            if(email==""){
+                                error="Email is requried";
+                                else{
+                                    $('#prntEmail').html(email);
+                                    if(detail==""){
+                                        error="Please type your message";
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    if(error != null){
+                        alert(error);
+                    }else{
+                        $('#exampleModal').modal('show');
+                        return false;
+                    }*/
+
+                /* else{
+                     //Pass Values
+                     $('#prntName').html(name);
+                     $('#prntEmail').html(email);
+                 }*/
+
+            });
+        });
     </script>
     <style>
         #aboutMain {
@@ -80,22 +131,29 @@
             </p>
         </div>
 
+
+        <%-- modal function added --%>
         <div id="contact">
             <h3 class="card-title">Contact me</h3>
             <form>
                 <div class="form-row" id="contactDetail">
                     <div class="col">
-                        <input type="text" class="form-control" placeholder="Name" required>
+                        <input type="text" class="form-control" placeholder="Name" id="contactName" required>
                     </div>
                     <div class="col">
-                        <input type="email" class="form-control" id="inputEmail4" placeholder="Email" required>
+                        <input type="email" class="form-control" id="inputEmail4" placeholder="Email" id="contactEmail"
+                               required>
                     </div>
                 </div>
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="8" required></textarea>
-                <button type="button" class="btn btn-primary btn-lg btn-block" id="contactSave" data-toggle="modal" data-target="#exampleModal" >Submit</button>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="8" id="detail"
+                          required></textarea>
+                <button type="button" class="btn btn-primary btn-lg btn-block" id="contactSave" data-toggle="modal"
+                        data-target="#exampleModal">Submit
+                </button>
 
                 <!-- Modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                     aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -105,10 +163,14 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                ...
+                                <p>Thank you for reaching us <span id="prntName"></span>, we will get back to
+                                    you <%-- displaying email not working <span id="prntEmail"></span>--%> as soon as we
+                                    can!</p>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-primary" data-dismiss="modal">Okay</button>
+                                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                        onclick="window.location='BlogServlet?action=showAbout';">Okay
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -116,6 +178,9 @@
 
             </form>
         </div>
+
+
+        <%-- modal function added finish --%>
 
     </div>
 </div>
