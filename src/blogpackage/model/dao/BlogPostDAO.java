@@ -7,6 +7,7 @@ import java.util.List;
 import blogpackage.model.bean.BlogPost;
 
 
+
     //defining instance variables
 
 public class BlogPostDAO {
@@ -297,12 +298,41 @@ public class BlogPostDAO {
 
         return isPostDeleted;
 
+    } // end delete post
 
-    }
+    public void InsertPost(BlogPost blogPost) {
+        System.out.println("Inserting Post");
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String sql = "INSERT INTO post(postTitle, postDate, postAuthor, postContent,  postVisible, categoryId) VALUES (?,?,?,?,?,?);";
+        //TODO write test to test insert and delete
+
+        try {
+            System.out.println("connecting to DB - insertPost");
+            connection = getConnection(); // connect to db
+            System.out.println("inserting data into prepared statment");
+            preparedStatement = connection.prepareStatement(sql);
+
+            /*ID - automatically created by mySQL*/
+            preparedStatement.setString(1, blogPost.getPostTitle()); 	/*title*/ System.out.println("inserted Title : "+ blogPost.getPostTitle());
+            preparedStatement.setString(2, (blogPost.getPostDate()));	/*Date*/	System.out.println("inserted date " + blogPost.getPostDate());
+            preparedStatement.setString(3, blogPost.getPostAuthor());	/*Author*/	System.out.println("inserted Author" + blogPost.getPostAuthor());
+            preparedStatement.setString(4, blogPost.getPostContent()); /*Content*/ System.out.println("inserted Content" + blogPost.getPostContent());
+            preparedStatement.setBoolean(5, blogPost.getPostVisible()); /*Visible*/ System.out.println("inserted visabiltiy " + blogPost.getPostVisible());
+            preparedStatement.setInt(6, blogPost.category.getCategoryID());		/*categoryID*/ System.out.println("inserted cat ID" + blogPost.category.getCategoryID());
+
+            //execute the command
+            preparedStatement.executeUpdate();
 
 
+        } catch (SQLException e) {
+            finallySQLException(connection, preparedStatement, resultSet);
+            e.printStackTrace();
+        }
 
-
+    } // end InsertPost
 
     private void printSQLException(SQLException ex) {
         for (Throwable e: ex) {

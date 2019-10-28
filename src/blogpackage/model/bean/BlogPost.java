@@ -1,12 +1,14 @@
 package blogpackage.model.bean;
 
 public class BlogPost {
+    public Category category = new Category();
     private int postID;
     private String postTitle;
     private String postDate;
     private String postAuthor;
     private String postContent;
     private boolean isPostVisable;
+    private boolean isPostVisible;
     private String postSummary;
 
     //added categoryId and category Title by Lucy
@@ -41,6 +43,21 @@ public class BlogPost {
         this.categoryId = categoryId;
         this.categoryTitle = categoryTitle;
     }
+
+
+    //displayALLToTerminal
+    public void displayPost() {
+
+        System.out.println("\n" + "displaypost");
+        System.out.println("Title: "+ getPostTitle());
+        System.out.println("date: "+ getPostDate());
+        System.out.println("author: "+ getPostAuthor());
+        System.out.println("content: "+ getPostContent());
+        System.out.println("visibility: "+ getPostVisible());
+        System.out.println("category ID: "+ category.getCategoryID());
+        System.out.println();
+    }
+
 
     public int getPostID() {
         return postID;
@@ -106,6 +123,14 @@ public class BlogPost {
 
     public void setPostSummary(String postSummary) {
         this.postSummary = postSummary;
+    }
+
+    public boolean getPostVisible() {
+        return isPostVisible;
+    }
+
+    public void setPostVisible(boolean isPostVisible) {
+        this.isPostVisible = isPostVisible;
     }
 
 }

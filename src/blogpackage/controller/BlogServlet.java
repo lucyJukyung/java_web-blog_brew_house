@@ -11,8 +11,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Calendar;
+
 
 @WebServlet(name = "BlogServlet", value = "/BlogServlet")
 public class BlogServlet extends HttpServlet {
@@ -24,7 +28,6 @@ public class BlogServlet extends HttpServlet {
     private AboutUsDAO aboutDAO;
     private static boolean isSession = false;
 
-///BrewHouseBlog_war_exploded
 
     public BlogServlet(){
         adminDAO = new AdminDAO();
@@ -61,11 +64,6 @@ public class BlogServlet extends HttpServlet {
                     insertCategory(request, response);
                     System.out.println("BlogServlet - switch: addCat executed");
                     break;
-
-                //delete category added but not been used yet
-                case "delCat":
-                    delCategory(request, response);
-                    System.out.println("BlogServlet - switch: delCat executed");
 
                     //edit about us
                 case "editAbout":
@@ -138,6 +136,22 @@ public class BlogServlet extends HttpServlet {
                     System.out.println("BlogServlet - switch: openEditAbout executed");
                     break;
 
+                // method to create new post
+                case "createNewPost":
+                    openNewPost(request, response);
+                    System.out.println("\ncreate post - servlet\n");
+                    break;
+
+                // method called when Post button is pressed on new post
+                case "insertPost":
+                    System.out.println("\ninsert post - servlet\n");
+                    insertPost(request,response);
+                    break;
+
+                case "edit": // edit post sends the user to the edit post with the post ID
+                    System.out.println("\nupdatePost  - servlet\n");
+                    editPost(request, response);
+                    break;
 
                 default:
                     System.out.println("running the default from Servlet - switch(action)");
@@ -326,12 +340,92 @@ public class BlogServlet extends HttpServlet {
         response.sendRedirect("/BlogServlet?action=post&id=" + pId);
     }
 
-    //deleteCategory added but not been used yet
-    private void delCategory(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
-        int id = Integer.parseInt(request.getParameter("id"));
-        catDAO.deleteCategory(id);
-        System.out.println("deleted comment id = " + id);
-        response.sendRedirect("/BlogServlet?action=showCategories");
+
+    //Isaac
+    private void insertPost(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+        System.out.println("Servlet - insertPost()");
+        //create bean object
+        BlogPost post = new BlogPost();
+
+        //TODO get values from jsp and put into the bean
+        System.out.print("getting title ");
+        post.setPostTitle(request.getParameter("title"));
+        System.out.println("- got title ");
+
+        System.out.print("getting date ");
+        Date currentDate = new Date(Calendar.getInstance().getTime().getTime());
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String dateAsString = formatter.format(currentDate);
+        System.out.println("Servlet - The dateAsString is: " + dateAsString);
+        post.setPostDate(dateAsString);/*insert the date*/
+        System.out.println("- got date");
+
+        System.out.print("getting author ");
+        HttpSession session = request.getSession(false);
+
+        String luser = (String) session.getAttribute("username");
+        System.out.println("Username retrieve is: " + luser);
+        post.setPostAuthor(luser);
+        System.out.println("- got author");
+
+        System.out.print("getting content ");
+        post.setPostContent(request.getParameter("content"));
+        System.out.println("- got content");
+
+        //check if the check box is ticked
+        System.out.print("getting visibility - is");
+        String isBoxTicked = request.getParameter("ticked");
+        System.out.println("isBoxTicked: " + isBoxTicked);
+        if (isBoxTicked == null || isBoxTicked.length() == 0 || isBoxTicked.isBlank()) {
+            System.out.println("setting the post to true");
+            post.setPostVisible(true);
+        }else if(isBoxTicked.equals("checked")){
+            System.out.println("setting the post to false");
+            post.setPostVisible(false);
+        }
+
+        System.out.println("- got visibility " + post.getPostVisible());
+
+        System.out.print("getting category ");
+        int categoryId = 1;
+        categoryId = Integer.parseInt(request.getParameter("category"));
+        post.category.setCategoryID(categoryId);
+        System.out.println("- got categoryID\n");
+
+        post.displayPost();
+
+        //insert into database - DAO works, check jUnit
+        System.out.println("\n\ninserting the post to database");
+        BlogPostDAO blogPDAO = new BlogPostDAO();
+        blogPDAO.InsertPost(post);
+
+        //redirect to admin page
+        System.out.println("redirecting the user to admin console else home");
+
+        try {
+            response.sendRedirect("BlogServlet?action=login");
+        }catch (Exception e) {
+            response.sendRedirect("BlogServlet");
+        }
+    } // END insert post
+
+    // method called to editPosts
+    private void editPost(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+        System.out.println("Servlet - editPost()");
+
+        int postID = Integer.parseInt(request.getParameter("postID"));
+        HttpSession session = request.getSession();
+
+        BlogPost existingPost =
+
+        session.setAttribute("postID", this.postID);
+        response.sendRedirect("editpost.jsp");
+
+    }
+
+
+    private void openNewPost(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+        response.sendRedirect(request.getContextPath() + "/newpost.jsp");
     }
 
 } //end servlet

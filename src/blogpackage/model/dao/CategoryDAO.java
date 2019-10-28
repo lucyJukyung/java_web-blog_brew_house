@@ -1,7 +1,7 @@
 package blogpackage.model.dao;
 
-import blogpackage.model.bean.AboutUs;
 import blogpackage.model.bean.Category;
+import blogpackage.model.bean.CategoryBean;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ public class CategoryDAO {
     protected Connection getConnection() {
         Connection connection = null;
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(DBURL, DBUsername, DBPassword);
         } catch (SQLException e) {
             //Auto-generated catch block
@@ -102,6 +102,50 @@ public class CategoryDAO {
         }
         return catDeleted;
     }
+
+
+    //Isaac
+    //selects all categories and inserts them into a list
+    public List<Category> SelectAllCategories() {
+        System.out.println("CategoryDAO - selecting all categories");
+        // vars
+        List<Category> allCat = new ArrayList<Category>();
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String sql = "SELECT * FROM category";
+
+        try {
+            connection = getConnection(); // connect to db
+
+            // commit select * statement
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+
+            // transfer results to bean
+            System.out.println("CategoryDAO - retreiving results from query");
+            while(resultSet.next()) {
+                //
+                Category catagory = new Category();
+                catagory.setCategoryID(resultSet.getInt("categoryID"));
+                catagory.setCategoryTitle(resultSet.getString("categoryTitle"));
+
+                //add bean to list
+                allCat.add(catagory);
+            }
+
+            finallySQLException(connection, preparedStatement, resultSet);
+            System.out.println("CategoryDAO - returning allCat");
+            return allCat;
+
+        } catch (SQLException e) {
+            finallySQLException(connection, preparedStatement, resultSet);
+            e.printStackTrace();
+            System.out.println("CategoryDAO - returning null");
+            return null;
+        }
+    } // end SelectAllCatagories
+
 
     //catch sql message when error occurs
     private void printSQLException(SQLException ex) {
