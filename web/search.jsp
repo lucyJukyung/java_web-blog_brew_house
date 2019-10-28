@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Search Page
 --%>
@@ -14,9 +15,48 @@
         <script src="https://kit.fontawesome.com/b4abea9736.js" crossorigin="anonymous"></script>
     </head>
 
-    <body>
+    <body class="bg-light">
     <%--Header imported from header.jsp--%>
     <jsp:include page="header.jsp" />
+
+    <c:if test="${fetchedPosts.isEmpty()}">
+        <div>
+            <p class="h4 text-center mt-4 text-info">Sorry, there are no results for <span class="font-italic h3"><c:out value="${query}"></c:out></span> ... </p>
+        </div>
+    </c:if>
+
+    <c:if test="${!fetchedPosts.isEmpty()}">
+        <div>
+            <p class="h4 text-center mt-4 text-info">Showing results for <span class="font-italic h3"><c:out value="${query}"></c:out></span> ... </p>
+        </div>
+
+        <div class="container mb-5 mt-5">
+            <div class="row">
+                <c:forEach var="post" items="${fetchedPosts}">
+                    <%-- col 1, row 2--%>
+                    <div class="col-4 d-flex justify-content-center">
+                        <div class="card  mb-5" style="max-width: 18rem; min-width: 18rem;">
+                            <div class="card-header"><c:out value="${post.getCategoryTitle()}" /></div>
+                            <div class="card-body text-secondary">
+                                <h5 class="card-title">
+
+                                    <a href="BlogServlet?action=post&id=<c:out value='${post.getPostID()}'/>">
+                                        <c:out value="${post.getPostTitle()}" />
+                                    </a>
+
+                                </h5>
+                                <p class="card-text"><c:out value="${post.getPostSummary()}"/>...</p>
+                                <p class="">Date Posted: <c:out value="${post.getPostDate()}"/></p>
+                            </div>
+                        </div>
+                    </div>
+                </c:forEach>
+            </div>
+        </div>
+
+
+    </c:if>
+
 
 
     <%--Footer imported from footer.jsp--%>

@@ -16,21 +16,35 @@ public class BlogPostDAO {
     private String DBURL = "jdbc:mysql://localhost:3306/BlogDB?serverTimezone=Australia/Sydney";
     private String DBUsername = "root";
     private String DBPassword = "mysql123";
-    //sql query modified
-    private String SELECTALLPOSTS = "SELECT * FROM post p INNER JOIN category c ON p.categoryId = c.categoryId ORDER BY postId DESC;";
-    //sql query modified
-    private String SELECTPOST = "SELECT * FROM post p INNER JOIN category c ON p.categoryId = c.categoryId WHERE postId=?;";
 
-    //constructor
-    public BlogPostDAO() {
-    }
+    //I've changed the query so the date is captured in the right format
+    private String SELECTALLPOSTS = "SELECT postId, postTitle, date_format(postDate, \"%d-%m-%y\") as postDate, postAuthor, postContent, postVisible, p.categoryID, c.categoryTitle FROM post p INNER JOIN category c ON p.categoryId = c.categoryId ORDER BY postId DESC;";
+    private String SELECTALLVISIBLEPOSTS = "SELECT postId, postTitle, date_format(postDate, \"%d-%m-%y\") as postDate, postAuthor, postContent, postVisible, p.categoryID, c.categoryTitle " +
+            "FROM post p INNER JOIN category c ON p.categoryId = c.categoryId " +
+            "WHERE postVisible = 1 " +
+            "ORDER BY postId DESC;";
+
+    private String SELECTPOST = "SELECT *, c.categoryTitle FROM post p INNER JOIN category c ON p.categoryId = c.categoryId WHERE postId=?;";
+
+    //Search query
+    private String SELECTALLPOSTSWHERE = "SELECT postId, postTitle, date_format(postDate, \"%d-%m-%y\") as postDate, postAuthor, postContent, postVisible, p.categoryID, c.categoryTitle " +
+            "FROM post p INNER JOIN category c ON p.categoryId = c.categoryId " +
+            "WHERE postTitle LIKE ? " +
+            "OR postContent LIKE ? " +
+            "AND postVisible = 1 " +
+            "ORDER BY postId DESC " +
+            "LIMIT 10;";
+
+    //Delete post query
+    private String DELETPOST = "Delete from post where postid = ?";
+
 
     // Creates a connection to the database
     protected Connection getConnection() {
         Connection connection = null;
         System.out.println("BlogPostDAO - getConnection()");
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(DBURL, DBUsername, DBPassword);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -111,9 +125,70 @@ public class BlogPostDAO {
                 Boolean isPostVisible = rs.getBoolean("postVisible");
                 int categoryID = rs.getInt("categoryID");
                 String categoryTitle = rs.getString("categoryTitle");
+                //System.out.println("post content: " + postContent);
+                String[] subString = postContent.split("\\.", 0);
+                String postSummary = subString[0];
+
 
                 // create an new object of type BlogPost and adds it to the list array <BlogPosts>
-                blogPosts.add(new BlogPost(postID, postTitle, postDate, postAuthor, postContent, isPostVisible, categoryID, categoryTitle));
+                blogPosts.add(new BlogPost(postID,postTitle,postDate,postAuthor,postContent,isPostVisible,categoryID,categoryTitle, postSummary));
+
+
+            } // end while
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            finallySQLException(connection,preparedStatement,rs);
+        } //end try/catch/finally
+
+        return blogPosts;
+
+    } // end selectAllPosts
+
+
+    // retrieve all posts and store it on an array list <BlogPost>
+    public List <BlogPost> selectAllVisiblePosts(){
+        System.out.println("BlogPostDAO - selectAllPosts"); //debugging
+
+        // create an List Array "blogPosts" to store objects of the type BlogPost (java bean)
+        List <BlogPost> blogPosts = new ArrayList<>();
+
+        //initialize DB variables
+        Connection connection = null;
+        PreparedStatement preparedStatement =  null;
+        ResultSet rs = null;
+
+        //stablishing a connection
+        try {
+            // 1. step 1, connection
+            connection = getConnection();
+
+            // 2. step 2, set the prepared statement
+            preparedStatement = connection.prepareStatement(SELECTALLVISIBLEPOSTS);
+            System.out.println("BlogPostDAO - Running query: " + preparedStatement);
+
+            // 3. step 3, execute the query using the prepared statement
+            rs = preparedStatement.executeQuery();
+
+            // 4. step 4, iterating through the ResultSet and adding values to the array
+            while (rs.next()){
+                int postID = rs.getInt("postId");
+                String postTitle = rs.getString("postTitle");
+                String postDate = rs.getString("postDate");
+                String postAuthor = rs.getString("postAuthor");
+                String postContent = rs.getString("postContent");
+                Boolean isPostVisible = rs.getBoolean("postVisible");
+                int categoryID = rs.getInt("categoryID");
+                String categoryTitle = rs.getString("categoryTitle");
+                //System.out.println("post content: " + postContent);
+                String[] subString = postContent.split("\\.", 0);
+                String postSummary = subString[0];
+
+
+                // create an new object of type BlogPost and adds it to the list array <BlogPosts>
+                blogPosts.add(new BlogPost(postID,postTitle,postDate,postAuthor,postContent,isPostVisible,categoryID,categoryTitle, postSummary));
+
 
             } // end while
 
@@ -126,6 +201,100 @@ public class BlogPostDAO {
         return blogPosts;
 
     } // end selectAllPosts
+
+
+    // retrieve all posts and store it on an array list <BlogPost>
+    public List <BlogPost> selectAllPostsWhere(String userQuery){
+        System.out.println("BlogPostDAO - selectAllPostsWhere()"); //debugging
+
+        // create an List Array "blogPosts" to store objects of the type BlogPost (java bean)
+        List <BlogPost> blogPosts = new ArrayList<>();
+        System.out.println("BlogPostDAO - blogPosts arraylist created");
+
+        //initialize DB variables
+        Connection connection = null;
+        PreparedStatement preparedStatement =  null;
+        ResultSet rs = null;
+        System.out.println("BlogPostDAO - connection prepStatement and rs created");
+
+        //stablishing a connection
+        try {
+            // 1. step 1, connection
+            connection = getConnection();
+            System.out.println("BlogPostDAO - getConnection()");
+
+            // 2. step 2, set the prepared statement
+            preparedStatement = connection.prepareStatement(SELECTALLPOSTSWHERE);
+            System.out.println("BlogPostDAO - Query SELECTALLPOSTSWHERE called");
+
+            preparedStatement.setString(1, "%" + userQuery + "%");
+            System.out.println("BlogPostDAO - adding first ?");
+
+            preparedStatement.setString(2, "%" + userQuery + "%");
+            System.out.println("BlogPostDAO - Running query: " + preparedStatement);
+
+            // 3. step 3, execute the query using the prepared statement
+            rs = preparedStatement.executeQuery();
+
+            // 4. step 4, iterating through the ResultSet and adding values to the array
+            while (rs.next()){
+                int postID = rs.getInt("postId");
+                String postTitle = rs.getString("postTitle");
+                String postDate = rs.getString("postDate");
+                String postAuthor = rs.getString("postAuthor");
+                String postContent = rs.getString("postContent");
+                Boolean isPostVisible = rs.getBoolean("postVisible");
+                int categoryID = rs.getInt("categoryID");
+                String categoryTitle = rs.getString("categoryTitle");
+                //System.out.println("post content: " + postContent);
+                String[] subString = postContent.split("\\.", 0);
+                String postSummary = subString[0];
+
+
+                // create an new object of type BlogPost and adds it to the list array <BlogPosts>
+                blogPosts.add(new BlogPost(postID,postTitle,postDate,postAuthor,postContent,isPostVisible,categoryID,categoryTitle, postSummary));
+
+
+            } // end while
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            finallySQLException(connection,preparedStatement,rs);
+        } //end try/catch/finally
+
+        return blogPosts;
+
+    } // end selectAllPostsWhere
+
+
+    public boolean deletePost(int postid) throws SQLException{
+        System.out.println("BlogPostDAO - deletePost()");
+
+        boolean isPostDeleted = false;
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(DELETPOST);
+            preparedStatement.setInt(1, postid);
+
+            System.out.println("DAO - executing query: " + preparedStatement);
+            isPostDeleted = preparedStatement.executeUpdate() > 0 ? true:false; //returns true if a post is deleted, otherwise, false
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            finallySQLException(connection, preparedStatement, null);
+        } // end try-catch
+
+        return isPostDeleted;
+
+
+    }
 
 
     private void printSQLException(SQLException ex) {

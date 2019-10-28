@@ -15,7 +15,9 @@ public class CategoryDAO {
     private String DBPassword = "mysql123";
     private String INSERTCATSQL = "INSERT INTO category (categoryTitle) VALUES " + " (?);";
     private String SELECTALLCATS = "SELECT * FROM category;";
-    private String DELETECATSQL = "DELETE from category WHERE categoryId=?;";
+    private String UPDATECATSQL = "UPDATE category SET categoryTitle = ? WHERE categoryId = ?;";
+    private String SELECTCATSQL = "SELECT categoryTitle FROM category WHERE categoryId = ?;";
+    //private String DELETECATSQL = "DELETE from category WHERE categoryId=?;";
 
     //constructor
     public CategoryDAO() {
@@ -84,7 +86,32 @@ public class CategoryDAO {
         return cat;
     }
 
-    //delete category
+    //update category added
+    public boolean updateCategory (Category cat) throws SQLException {
+        boolean catUpdated = false;
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            connection = getConnection();
+            preparedStatement =
+                    connection.prepareStatement(UPDATECATSQL);
+            preparedStatement.setString(1, cat.getCname());
+            preparedStatement.setInt(2, cat.getCid());
+
+            System.out.println(preparedStatement);
+            catUpdated = preparedStatement.executeUpdate() > 0 ?
+                    true:false;
+        }
+        catch (SQLException e) {
+            printSQLException (e);
+        }
+        finally {
+            finallySQLException(connection,preparedStatement,null);
+        }
+        return catUpdated;
+    }
+
+    /*//delete category
     public boolean deleteCategory(int id) throws SQLException {
         boolean catDeleted = false;
         Connection connection = null;
@@ -101,7 +128,7 @@ public class CategoryDAO {
             finallySQLException(connection, preparedStatement, null);
         }
         return catDeleted;
-    }
+    }*/
 
     //catch sql message when error occurs
     private void printSQLException(SQLException ex) {
@@ -120,6 +147,36 @@ public class CategoryDAO {
                 }
             }
         }
+    }
+
+    public Category selectCategory(int Cid) {
+        Category cat = null;
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet rs=null;
+
+        // Step 1: Establishing a Connection
+        try {
+            connection = getConnection();
+            // Step 2:Create a statement using connection object
+            preparedStatement = connection.prepareStatement(SELECTCATSQL);
+            preparedStatement.setInt(1, Cid);
+            System.out.println(preparedStatement);
+            // Step 3: Execute the query or update query
+            rs = preparedStatement.executeQuery();
+            // Step 4: Process the ResultSet object.
+            while (rs.next()) {
+                String Cname = rs.getString("categoryTitle");
+                cat = new Category(Cid, Cname);
+            }
+
+        } catch (SQLException e) {
+            printSQLException(e);
+        }
+        finally {
+            finallySQLException(connection,preparedStatement,rs);
+        }
+        return cat;
     }
 
     //close sql statement and connection

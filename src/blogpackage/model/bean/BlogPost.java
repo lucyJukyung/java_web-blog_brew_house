@@ -7,6 +7,7 @@ public class BlogPost {
     private String postAuthor;
     private String postContent;
     private boolean isPostVisable;
+    private String postSummary;
 
 
     //added categoryId and category Title by Lucy
@@ -17,7 +18,19 @@ public class BlogPost {
 
     }
 
-    //constructor for selectAllPosts in PostDAO
+    //constructor for selectAllPosts in PostDAO WITH SUMMARY
+    public BlogPost(int postID, String postTitle, String postDate, String postAuthor, String postContent, boolean isPostVisable, int categoryId, String categoryTitle,
+                    String postSummary) {
+        this.postID = postID;
+        this.postTitle = postTitle;
+        this.postDate = postDate;
+        this.postAuthor = postAuthor;
+        this.postContent = postContent;
+        this.isPostVisable = isPostVisable;
+        this.categoryId = categoryId;
+        this.categoryTitle = categoryTitle;
+        this.postSummary = postSummary;
+    }
 
     public BlogPost(int postID, String postTitle, String postDate, String postAuthor, String postContent, boolean isPostVisable, int categoryId, String categoryTitle) {
         this.postID = postID;
@@ -94,6 +107,14 @@ public class BlogPost {
 
     public void setCategoryTitle(String categoryTitle) {
         this.categoryTitle = categoryTitle;
+    }
+
+    public String getPostSummary() {
+        return postSummary;
+    }
+
+    public void setPostSummary(String postSummary) {
+        this.postSummary = postSummary;
     }
 
 }

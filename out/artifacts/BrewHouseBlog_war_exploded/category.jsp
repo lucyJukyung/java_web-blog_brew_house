@@ -26,17 +26,18 @@
         #addTxt {
             width: 80%;
         }
-        #saveCat{
+
+        #saveCat {
             margin-left: 30px;
             width: 150px;
         }
 
-        #saveAbout, #cancelBtn{
+        #saveAbout, #cancelBtn {
             margin-left: 30px;
             width: 150px;
         }
 
-        #saveAbout, #cancelBtn{
+        #saveAbout, #cancelBtn {
             margin-left: 30px;
             margin-top: 50px;
             width: 150px;
@@ -49,7 +50,7 @@
     </style>
 </head>
 
-<body>
+<body class="bg-light">
 <%--Header imported from header.jsp--%>
 <jsp:include page="header.jsp"/>
 <%----%>
@@ -69,34 +70,73 @@
 
             <div class="form-group">
 
+
+                <%-- Lucy category edit modified --%>
+
                 <form action="/BlogServlet" method="post">
                     <div id="addTxtBox" align="left" class="form-inline">
-                        <input type="hidden" name="action" value="addCat">
-                        <input type="text" name="category" class="form-control" id="addTxt"
-                               placeholder="Add New Category" align="left" required/>
-                        <input type="submit" name="action" value="Save" class="btn btn-primary btn-lg" id="saveCat"/>
+                        <c:choose>
+                            <c:when test="${currentCat == null}">
+                                <input type="hidden" name="action" value="addCat">
+                                <input type="text" name="category" class="form-control" id="addTxt"
+                                       placeholder="Add New Category" align="left" required/>
+                                <input type="submit" name="action" value="Save" class="btn btn-primary btn-lg"
+                                       id="saveCat"/>
+                            </c:when>
+
+                            <c:otherwise>
+                                <input type="hidden" name="action" value="updateCat">
+                                <input type="hidden" name="id" value="<c:out value='${currentCat.getCid()}'/>"/>
+                                <input type="text" name="category" class="form-control" id="addTxt"
+                                       align="left" required value="<c:out value='${currentCat.getCname()}' />"/>
+                                <input type="submit" name="action" value="Update" class="btn btn-primary btn-lg"
+                                       id="saveCat"/>
+                            </c:otherwise>
+                        </c:choose>
                     </div>
                 </form>
 
                 <div align="left">
                     <form action="/BlogServlet" method="post">
-                        <div id="showCategories" align="left">
-                            <ul class="list-group list-group-flush">
-                                <c:forEach var="category" items="${showCategories}">
-                                    <li class="list-group-item"><c:out value="${category.getCname()}"/>
-                                            <%--
-                                            <input type="hidden" name="action" value="delCat">
-                                            <input type="hidden" name="id" value="<c:out value="${category.getCid()}"/>" />
-                                            this can be a lot of work to figure out since it involves foreign key delettion.
-                                            I will leave this commented since it is not in the requirement.
-                                            <input type="submit" class="close" aria-label="Close" value="&times;" />
-                                            --%>
-                                    </li>
-                                </c:forEach>
-                            </ul>
-                        </div>
+                        <c:choose>
+                            <c:when test="${currentCat == null}">
+                                <div id="showCategories" align="left">
+                                    <ul class="list-group list-group-flush">
+                                        <c:forEach var="category" items="${showCategories}">
+                                            <li class="list-group-item">
+
+                                                <c:out value="${category.getCname()}"/>
+                                                <div align="right" style="margin-top:-30px">
+                                                    <a href="BlogServlet?action=editCat&id=<c:out value='${category.getCid()}'/>"
+                                                       class="btn btn-primary a-btn-slide-text" id="catEditBtn">
+                                                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                                                        <span><strong>Edit</strong></span>
+                                                    </a>
+                                                </div>
+
+                                            </li>
+                                        </c:forEach>
+                                    </ul>
+                                </div>
+                            </c:when>
+                            <c:otherwise>
+                                <div id="showCategories" align="left">
+                                    <ul class="list-group list-group-flush">
+                                        <c:forEach var="category" items="${showCategories}">
+                                            <li class="list-group-item">
+                                                <c:out value="${category.getCname()}"/>
+                                            </li>
+                                        </c:forEach>
+                                    </ul>
+                                </div>
+                            </c:otherwise>
+                        </c:choose>
                     </form>
                 </div>
+
+                <%-- Lucy category edit modified finish--%>
+
+
             </div>
         </div>
     </div>
@@ -116,13 +156,13 @@
 
                 <div class="form-group">
                     <input type="hidden" name="action" value="editAbout">
-                    <c:if test="${aboutus != null}">
-                        <input type="hidden" name="id" value="<c:out value='${aboutus.getDid()}' />"/>
-                    </c:if>
+                    <input type="hidden" name="id" value="<c:out value='${aboutus.getDid()}' />"/>
                     <textarea class="form-control" id="exampleFormControlTextarea1" name="aboutDesc"
-                              value="<c:out value="${aboutus.getDesc()}"/>" rows="10" required></textarea>
+                              rows="10" required>${aboutus.getDesc()}</textarea>
 
-                    <button type="submit" class="btn btn-secondary btn-lg" id="cancelBtn" onclick="location.href='main.jsp';">Cancel</button>
+                    <button type="submit" class="btn btn-secondary btn-lg" id="cancelBtn"
+                            onclick="location.href='main.jsp';">Cancel
+                    </button>
                     <button type="submit" class="btn btn-primary btn-lg" value="Save" id="saveAbout">Save</button>
 
                 </div>

@@ -6,6 +6,12 @@ import java.util.*;
 
 public class AdminDAO {
 
+
+    //--------------------------
+    //      SQL QUERIES
+    //--------------------------
+    private String SELECTUSERNAMEPASSWORD = "Select * from admin where username = ? and password = ?;";
+
     //defining instance variables
     private String DBURL = "jdbc:mysql://localhost:3306/BlogDB?serverTimezone=Australia/Sydney";
     private String DBUsername = "root";
@@ -32,6 +38,62 @@ public class AdminDAO {
         return connection;
     } // end getConnection
 
+    public Admin checkCredentials(String username, String password){
+
+        System.out.println("AdminDAO - checkCredentials()");
+
+        Admin admin = null;
+
+        //initialize DB variables
+        Connection connection = null;
+        PreparedStatement preparedStatement =  null;
+        ResultSet rs = null;
+        System.out.println("AdminDAO - connection prepStatement and rs created");
+
+
+        try {
+            //stablishing a connection
+            connection = getConnection();
+
+            //set prepared statement
+            preparedStatement = connection.prepareStatement(SELECTUSERNAMEPASSWORD);
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, password);
+
+
+            rs = preparedStatement.executeQuery();
+            System.out.println("AdminDAO - Query executed: " + preparedStatement);
+
+            // rs.next() returns true if a user is found
+            if (rs.next()) {
+                int adminID = rs.getInt("adminId");
+                String usrname = rs.getString("username");
+                String pwd = rs.getString("password");
+
+                admin = new Admin(adminID, usrname, pwd, true);
+                System.out.println("AdminDAO - checkCredentials() - new authenticated admin Bean: " +
+                        adminID + " " + username + " " + pwd + " true");
+
+            } else {
+                String usrname = username;
+                String pwd = password;
+                admin = new Admin(-1, usrname, pwd, false);
+                System.out.println("AdminDAO - checkCredentials() - new failed admin Bean: " +
+                        -1 + " " + username + " " + pwd + " false");
+            }
+
+            if (username == null) {
+                admin = new Admin(-2, username, password, false);
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return admin;
+
+    }
 
     //method to close DB connection
     private void finallySQLException(Connection c, PreparedStatement p, ResultSet r) {

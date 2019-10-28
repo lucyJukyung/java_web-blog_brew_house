@@ -110,7 +110,7 @@
     </style>
 </head>
 
-<body>
+<body class="bg-light">
 <%--Header imported from header.jsp--%>
 <jsp:include page="header.jsp"/>
 <%----%>

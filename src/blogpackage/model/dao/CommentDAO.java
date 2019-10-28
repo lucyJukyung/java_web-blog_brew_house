@@ -170,5 +170,4 @@ public class CommentDAO {
 
     } // end finallySQLException
 
-
 }
