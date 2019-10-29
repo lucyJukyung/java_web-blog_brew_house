@@ -59,10 +59,10 @@
                     <%--conditional for new post and edit post - TITLE--%>
                     <c:choose>
                         <c:when test="${existingPost != null}">
-                            <input type="text" name="title" class="form-control" value="<c:out value="${existingPost.getPostTitle()}"></c:out>">
+                            <input type="text" name="title" class="form-control" required value="<c:out value="${existingPost.getPostTitle()}"></c:out>">
                         </c:when>
                         <c:otherwise>
-                            <input type="text" name="title" class="form-control" placeholder="Title...">
+                            <input type="text" name="title" class="form-control" placeholder="Title..." required>
                         </c:otherwise>
                     </c:choose>
                     <%-- END of conditional for new post and edit post - TITLE--%>
