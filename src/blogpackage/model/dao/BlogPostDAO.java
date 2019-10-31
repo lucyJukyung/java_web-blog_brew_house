@@ -6,7 +6,7 @@ import java.util.List;
 
 import blogpackage.model.bean.BlogPost;
 
-
+    //defining instance variables
 public class BlogPostDAO {
     //Define instance variables
     //--------------------------
@@ -37,6 +37,11 @@ public class BlogPostDAO {
 
     //Delete post query
     private String DELETPOST = "Delete from post where postid = ?";
+
+
+    //Update Post Query
+    private String UPDATEPOST = "UPDATE post set postTitle = ?, postDate = ?, postAuthor = ?, postContent = ?, postVisible = ?, categoryId = ? " +
+            "where postId = ?;";
 
 
     // Creates a connection to the database
@@ -293,10 +298,80 @@ public class BlogPostDAO {
 
         return isPostDeleted;
 
+    } // end delete post
 
-    }
+    public void InsertPost(BlogPost blogPost) {
+        System.out.println("Inserting Post");
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String sql = "INSERT INTO post(postTitle, postDate, postAuthor, postContent,  postVisible, categoryId) VALUES (?,?,?,?,?,?);";
+        //TODO write test to test insert and delete
+
+        try {
+            System.out.println("connecting to DB - insertPost");
+            connection = getConnection(); // connect to db
+            System.out.println("inserting data into prepared statment");
+            preparedStatement = connection.prepareStatement(sql);
+
+            /*ID - automatically created by mySQL*/
+            preparedStatement.setString(1, blogPost.getPostTitle()); 	/*title*/ System.out.println("inserted Title : "+ blogPost.getPostTitle());
+            preparedStatement.setString(2, (blogPost.getPostDate()));	/*Date*/	System.out.println("inserted date " + blogPost.getPostDate());
+            preparedStatement.setString(3, blogPost.getPostAuthor());	/*Author*/	System.out.println("inserted Author" + blogPost.getPostAuthor());
+            preparedStatement.setString(4, blogPost.getPostContent()); /*Content*/ System.out.println("inserted Content" + blogPost.getPostContent());
+            preparedStatement.setBoolean(5, blogPost.getPostVisible()); /*Visible*/ System.out.println("inserted visabiltiy " + blogPost.getPostVisible());
+            preparedStatement.setInt(6, blogPost.category.getCategoryID());		/*categoryID*/ System.out.println("inserted cat ID" + blogPost.category.getCategoryID());
+
+            //execute the command
+            preparedStatement.executeUpdate();
 
 
+        } catch (SQLException e) {
+            finallySQLException(connection, preparedStatement, resultSet);
+            e.printStackTrace();
+        }
+
+    } // end InsertPost
+
+
+    // method called to update a post
+    public boolean updatePost(BlogPost modifiedPost) throws SQLException{
+
+        System.out.println("BlogPostDAO - updatePost()");
+
+        boolean isPostUpdated = false;
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        /*"UPDATE post set postTitle = ?, postDate = ?, postAuthor = ?, postContent = ?, postVisible = ?, categoryId = ?" +
+                "where postId = ?;";*/
+        try {
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(UPDATEPOST);
+
+            preparedStatement.setString(1, modifiedPost.getPostTitle());
+            preparedStatement.setString(2, modifiedPost.getPostDate());
+            preparedStatement.setString(3, modifiedPost.getPostAuthor());
+            preparedStatement.setString(4, modifiedPost.getPostContent());
+            preparedStatement.setBoolean(5, modifiedPost.getPostVisible());
+            preparedStatement.setInt(6,  modifiedPost.getCategoryId());
+            preparedStatement.setInt(7, modifiedPost.getPostID());
+
+            System.out.println("BlogPostDAO - executing query: " +preparedStatement);
+            isPostUpdated = preparedStatement.executeUpdate() > 0 ? true:false;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            finallySQLException(connection,preparedStatement,null);
+        } // end try-catch
+
+        return isPostUpdated;
+
+
+    } // end updatePost
     private void printSQLException(SQLException ex) {
         for (Throwable e : ex) {
             if (e instanceof SQLException) {
@@ -339,5 +414,4 @@ public class BlogPostDAO {
             }
         }
     }
-
 }

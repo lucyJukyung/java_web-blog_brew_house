@@ -20,11 +20,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    < <%-- importing javascript for modal --%>
 
     <script type="text/javascript">
         $(document).ready(function () {
-
             $('#exampleModal').on('show.bs.modal', function (e) {
                 var name = $('#contactName').val();
                 /*var email = $('#contactEmail').val();
@@ -33,7 +31,6 @@
                 //Pass Values
                 $('#prntName').html(name);
                 //$('#prntEmail').html(email);
-
                 /*$("#contactSave").click(function(){
                     var name = $('#contactName').val();
                     var email = $('#contactEmail').val();
@@ -63,16 +60,15 @@
                         $('#exampleModal').modal('show');
                         return false;
                     }*/
-
                 /* else{
                      //Pass Values
                      $('#prntName').html(name);
                      $('#prntEmail').html(email);
                  }*/
-
             });
         });
     </script>
+
     <style>
         #aboutMain {
             position: relative;
@@ -131,7 +127,6 @@
             </p>
         </div>
 
-
         <%-- modal function added --%>
         <div id="contact">
             <h3 class="card-title">Contact me</h3>
@@ -175,7 +170,6 @@
                         </div>
                     </div>
                 </div>
-
             </form>
         </div>
 

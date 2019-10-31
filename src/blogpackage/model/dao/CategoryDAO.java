@@ -1,7 +1,7 @@
 package blogpackage.model.dao;
 
-import blogpackage.model.bean.AboutUs;
 import blogpackage.model.bean.Category;
+import blogpackage.model.bean.CategoryBean;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -15,9 +15,9 @@ public class CategoryDAO {
     private String DBPassword = "mysql123";
     private String INSERTCATSQL = "INSERT INTO category (categoryTitle) VALUES " + " (?);";
     private String SELECTALLCATS = "SELECT * FROM category;";
+    private String DELETECATSQL = "DELETE from category WHERE categoryId=?;";
     private String UPDATECATSQL = "UPDATE category SET categoryTitle = ? WHERE categoryId = ?;";
     private String SELECTCATSQL = "SELECT categoryTitle FROM category WHERE categoryId = ?;";
-    //private String DELETECATSQL = "DELETE from category WHERE categoryId=?;";
 
     //constructor
     public CategoryDAO() {
@@ -26,7 +26,7 @@ public class CategoryDAO {
     protected Connection getConnection() {
         Connection connection = null;
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(DBURL, DBUsername, DBPassword);
         } catch (SQLException e) {
             //Auto-generated catch block
@@ -86,6 +86,69 @@ public class CategoryDAO {
         return cat;
     }
 
+    /*//delete category
+    public boolean deleteCategory(int id) throws SQLException {
+        boolean catDeleted = false;
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = getConnection();
+            preparedStatement =
+                    connection.prepareStatement(DELETECATSQL);
+            preparedStatement.setInt(1, id);
+            catDeleted = preparedStatement.executeUpdate() > 0 ?
+                    true : false;
+        } finally {
+            finallySQLException(connection, preparedStatement, null);
+        }
+        return catDeleted;
+    }*/
+
+
+    //Isaac
+    //selects all categories and inserts them into a list
+    public List<Category> SelectAllCategories() {
+        System.out.println("CategoryDAO - selecting all categories");
+        // vars
+        List<Category> allCat = new ArrayList<Category>();
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String sql = "SELECT * FROM category";
+
+        try {
+            connection = getConnection(); // connect to db
+
+            // commit select * statement
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+
+            // transfer results to bean
+            System.out.println("CategoryDAO - retreiving results from query");
+            while(resultSet.next()) {
+                //
+                Category catagory = new Category();
+                catagory.setCategoryID(resultSet.getInt("categoryID"));
+                catagory.setCategoryTitle(resultSet.getString("categoryTitle"));
+
+                //add bean to list
+                allCat.add(catagory);
+            }
+
+            finallySQLException(connection, preparedStatement, resultSet);
+            System.out.println("CategoryDAO - returning allCat");
+            return allCat;
+
+        } catch (SQLException e) {
+            finallySQLException(connection, preparedStatement, resultSet);
+            e.printStackTrace();
+            System.out.println("CategoryDAO - returning null");
+            return null;
+        }
+    } // end SelectAllCatagories
+
+
     //update category added
     public boolean updateCategory (Category cat) throws SQLException {
         boolean catUpdated = false;
@@ -111,43 +174,6 @@ public class CategoryDAO {
         return catUpdated;
     }
 
-    /*//delete category
-    public boolean deleteCategory(int id) throws SQLException {
-        boolean catDeleted = false;
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-
-        try {
-            connection = getConnection();
-            preparedStatement =
-                    connection.prepareStatement(DELETECATSQL);
-            preparedStatement.setInt(1, id);
-            catDeleted = preparedStatement.executeUpdate() > 0 ?
-                    true : false;
-        } finally {
-            finallySQLException(connection, preparedStatement, null);
-        }
-        return catDeleted;
-    }*/
-
-    //catch sql message when error occurs
-    private void printSQLException(SQLException ex) {
-        for (Throwable e : ex) {
-            if (e instanceof SQLException) {
-                e.printStackTrace(System.err);
-                System.err.println("SQLState: " + ((SQLException)
-                        e).getSQLState());
-                System.err.println("Error Code: " + ((SQLException)
-                        e).getErrorCode());
-                System.err.println("Message: " + e.getMessage());
-                Throwable t = ex.getCause();
-                while (t != null) {
-                    System.out.println("Cause: " + t);
-                    t = t.getCause();
-                }
-            }
-        }
-    }
 
     public Category selectCategory(int Cid) {
         Category cat = null;
@@ -177,6 +203,26 @@ public class CategoryDAO {
             finallySQLException(connection,preparedStatement,rs);
         }
         return cat;
+    }
+
+
+    //catch sql message when error occurs
+    private void printSQLException(SQLException ex) {
+        for (Throwable e : ex) {
+            if (e instanceof SQLException) {
+                e.printStackTrace(System.err);
+                System.err.println("SQLState: " + ((SQLException)
+                        e).getSQLState());
+                System.err.println("Error Code: " + ((SQLException)
+                        e).getErrorCode());
+                System.err.println("Message: " + e.getMessage());
+                Throwable t = ex.getCause();
+                while (t != null) {
+                    System.out.println("Cause: " + t);
+                    t = t.getCause();
+                }
+            }
+        }
     }
 
     //close sql statement and connection

@@ -71,7 +71,7 @@
 
 
                                 <div class="col-3 text-monospace">
-                                    <a href="BlogServlet?action=edit&id=<c:out value="${post.getPostID()}"></c:out>" class="text-dark text-decoration-none">EDIT</a>
+                                    <a href="BlogServlet?action=edit&postID=<c:out value="${post.getPostID()}"></c:out>" class="text-dark text-decoration-none">EDIT</a>
                                     <span>|</span>
                                     <a href="BlogServlet?action=delete&id=<c:out value="${post.getPostID()}"></c:out>" class="text-dark text-decoration-none" onclick="return confirmPostDeletion();">DELETE</a>
                                 </div>
@@ -85,7 +85,7 @@
 
                     <!-- Menu col -->
                     <div class="col-3 mt-n5 ml-n5">
-                        <a href="BlogServlet?action=" class="btn btn-lg btn-info text-monospace mb-3 btn-block text-left"><i class="far fa-paper-plane mr-4"></i>NEW POST</a>
+                        <a href="BlogServlet?action=createNewPost" class="btn btn-lg btn-info text-monospace mb-3 btn-block text-left"><i class="far fa-paper-plane mr-4"></i>NEW POST</a>
                         <a href="BlogServlet?action=showCategories" class="btn btn-lg btn-info text-monospace mb-3 btn-block text-left"><i class="far fa-file mr-4"></i>NEW CATEGORY</a>
                         <a href="BlogServlet?action=openEditAbout" class="btn btn-lg btn-info text-monospace mb-3 btn-block text-left"><i class="far fa-edit mr-3"></i>EDIT ABOUT</a>
                         <a href="BlogServlet?action=logout" class="btn btn-lg btn-info text-monospace mb-3 btn-block text-left"><i class="fas fa-sign-out-alt mr-3"></i>LOGOUT</a>

@@ -3,6 +3,8 @@ package blogpackage.model.bean;
 public class Category {
     protected int Cid;
     protected String Cname;
+    protected int categoryID;
+    protected String categoryTitle;
 
     public Category() {
 
@@ -32,6 +34,23 @@ public class Category {
 
     public void setCname(String Cname) {
         this.Cname = Cname;
+    }
+
+    // getters and setters
+    public int getCategoryID() {
+        return categoryID;
+    }
+
+    public void setCategoryID(int categoryID) {
+        this.categoryID = categoryID;
+    }
+
+    public String getCategoryTitle() {
+        return categoryTitle;
+    }
+
+    public void setCategoryTitle(String categoryTitle) {
+        this.categoryTitle = categoryTitle;
     }
 
 }

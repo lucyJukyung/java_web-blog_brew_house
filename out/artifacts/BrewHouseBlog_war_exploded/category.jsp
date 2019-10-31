@@ -62,11 +62,11 @@
     %>
     <div class="card" id="addCatBox">
         <div class="card-header" align="left">
-            Edit Category
+            <span class="text-monospace">Manage your Categories</span>
         </div>
         <div class="card-body">
-            <h5 class="card-title" align="left">Manage your Categories</h5>
-            <p class="card-text" align="left">Add new category or delete category</p>
+            <h5 class="card-title" align="left"></h5>
+            <p class="card-text" align="left">Add / Edit Categories</p>
 
             <div class="form-group">
 
