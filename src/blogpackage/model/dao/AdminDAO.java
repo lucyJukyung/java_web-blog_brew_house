@@ -74,7 +74,11 @@ public class AdminDAO {
                 System.out.println("AdminDAO - checkCredentials() - new authenticated admin Bean: " +
                         adminID + " " + username + " " + pwd + " true");
 
-            } else {
+            }
+            else if(username == null){
+                admin = new Admin(-2, username, password, false);
+            }
+            else {
                 String usrname = username;
                 String pwd = password;
                 admin = new Admin(-1, usrname, pwd, false);
@@ -82,10 +86,10 @@ public class AdminDAO {
                         -1 + " " + username + " " + pwd + " false");
             }
 
-            if (username == null) {
+           /* if (username == null) {
                 admin = new Admin(-2, username, password, false);
             }
-
+*/
 
         } catch (SQLException e) {
             e.printStackTrace();

@@ -76,6 +76,9 @@
             vertical-align: middle;
             border-bottom: 1px dotted #ccc;
         }
+        #commentShowDiv:hover{
+            background-color: #EFF0F0;
+        }
 
         #commentInputDiv {
             margin: 50px 0 20px 30px;
@@ -159,10 +162,12 @@
                     <p id="cmmtOwner" align="left"><c:out value="${comment.getCommentOwner()}"/></p>
                     <p id="comment" align="left"><c:out value="${comment.getCommentContent()}"/></p>
 
-
-                    <input type="hidden" name="id" value="<c:out value="${comment.getCommentID()}"/>"/>
-                    <input type="hidden" name="Pid" value="<c:out value="${displayPost.getPostID()}"/>"/>
-                    <input type="submit" class="close" aria-label="Close" value="&times;" id="delBtn"/>
+                    <%-- comment delete button appears when admin logged in--%>
+                    <c:if test="${sessionScope.username != null}">
+                        <input type="hidden" name="id" value="<c:out value="${comment.getCommentID()}"/>"/>
+                        <input type="hidden" name="Pid" value="<c:out value="${displayPost.getPostID()}"/>"/>
+                        <input type="submit" class="close" aria-label="Close" value="&times;" id="delBtn"/>
+                    </c:if>
 
                 </div>
             </form>
