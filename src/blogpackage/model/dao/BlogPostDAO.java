@@ -131,7 +131,8 @@ public class BlogPostDAO {
                 int categoryID = rs.getInt("categoryID");
                 String categoryTitle = rs.getString("categoryTitle");
                 //System.out.println("post content: " + postContent);
-                String[] subString = postContent.split("\\.", 0);
+                String[] subString = postContent.split("\\.", 0);//creating regular expression(regex) is by \\
+                //\\. means split string at dot(.).
                 String postSummary = subString[0];
 
 

@@ -143,7 +143,7 @@
     <%-- post content div --%>
     <div id="postContentDiv">
         <h2 align="left" style="font-weight: bold;"><c:out value="${displayPost.getPostTitle()}"/></h2>
-        <article><c:out value="${displayPost.getPostContent()}"/></article>
+        <article>${displayPost.getPostContent()}</article>
     </div>
 
     <%-- horizontal line for division with post and comment --%>
@@ -182,7 +182,6 @@
                 <input type="text" class="form-control" placeholder="Insert Comment" id="inputCmmt" name="cmmt" required/>
 
                 <input type="submit" value="Comment" class="btn btn-primary btn-sm" />
-
 
             </div>
         </form>

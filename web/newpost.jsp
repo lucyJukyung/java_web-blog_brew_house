@@ -36,7 +36,14 @@
 
     <div class="container mt-4">
         <div class="page-header">
-            <h1 class="text-monospace">New Post</h1>
+            <c:choose>
+                <c:when test="${existingPost == null}">
+                <h1 class="text-monospace">New Post</h1>
+                </c:when>
+                <c:otherwise>
+                    <h1 class="text-monospace">Edit Post</h1>
+                </c:otherwise>
+            </c:choose>
         </div>
 
         <form action="/BlogServlet" method="post" class="mt-3">

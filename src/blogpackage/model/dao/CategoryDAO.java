@@ -86,7 +86,7 @@ public class CategoryDAO {
         return cat;
     }
 
-    /*//delete category
+    /*delete category
     public boolean deleteCategory(int id) throws SQLException {
         boolean catDeleted = false;
         Connection connection = null;
@@ -119,7 +119,6 @@ public class CategoryDAO {
 
         try {
             connection = getConnection(); // connect to db
-
             // commit select * statement
             preparedStatement = connection.prepareStatement(sql);
             resultSet = preparedStatement.executeQuery();

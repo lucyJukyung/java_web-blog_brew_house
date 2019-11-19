@@ -60,7 +60,7 @@
 
                                             </h5>
                                             <p class="card-text">
-                                                <c:out value="${post.getPostSummary()}" />...</p>
+                                                ${post.getPostSummary()}...</p>
                                             <p class="">Date Posted:
                                                 <c:out value="${post.getPostDate()}" />
                                             </p>
